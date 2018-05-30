@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kimo&#39;s blog</title>
+    <link>http://mohadkamil.github.com/</link>
+    <description>Recent content on kimo&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 01 Mar 2018 20:21:00 +0200</lastBuildDate>
+    
+	<atom:link href="http://mohadkamil.github.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Migrating to VSTS</title>
+      <link>http://mohadkamil.github.com/posts/vstsmigration/</link>
+      <pubDate>Thu, 01 Mar 2018 20:21:00 +0200</pubDate>
+      
+      <guid>http://mohadkamil.github.com/posts/vstsmigration/</guid>
+      <description>At work a need arose for migrating a project with 4 years worth of history from our on premise TFS to the online visual studio team services (VSTS), completing the migration, I though I would share the workflow and steps for migrating a project from local TFS to VSTS, and the gotchas and consideration you need to be aware of.
+But first, Why would you want to migrate? It could be for couple of reasons, one of them is to tap into the up to date features of the online VSTS, while the on-premise offering of TFS gets updated, the cadence at which the online counterpart gets updated are much much higher.</description>
+    </item>
+    
+    <item>
+      <title>Hello world</title>
+      <link>http://mohadkamil.github.com/posts/helloworld/</link>
+      <pubDate>Sat, 28 May 2016 23:23:41 +0200</pubDate>
+      
+      <guid>http://mohadkamil.github.com/posts/helloworld/</guid>
+      <description>he first program you write when you learn a new programming language is the famous Hello world program , and as such, this is my hello world blog post , I will return soon to talk more about many interesting topics , but now I was able to say Hello to the world , and that’s enough for now.</description>
+    </item>
+    
+  </channel>
+</rss>

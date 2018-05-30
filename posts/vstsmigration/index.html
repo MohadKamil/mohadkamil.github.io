@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <meta property="og:title" content=" Migrating to VSTS &middot;  kimo&#39;s blog" />
+  
+  <meta name="theme-color" content="#hexcolor" />
+ 
+  <meta property="og:site_name" content="kimo&#39;s blog" />
+  <meta property="og:url" content="http://mohadkamil.github.com/posts/vstsmigration/" />
+  
+  
+  <meta property="og:type" content="article" />
+  
+  <meta property="og:article:published_time" content="2018-03-01T20:21:00&#43;02:00" />
+  
+  
+
+  <title>
+     Migrating to VSTS &middot;  kimo&#39;s blog
+  </title>
+
+  <link rel="stylesheet" href="http://mohadkamil.github.com/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://mohadkamil.github.com/css/main.css" />
+  <link rel="stylesheet" href="http://mohadkamil.github.com/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://mohadkamil.github.com/css/github.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400" type="text/css">
+  <link rel="shortcut icon" href="http://mohadkamil.github.com/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://mohadkamil.github.com/images/apple-touch-icon.png" />
+  
+</head>
+<body>
+    <header class="global-header"  style="background-image:url( /images/bg.jpg )">
+    <section class="header-text">
+      <h1><a href="http://mohadkamil.github.com/">kimo&#39;s blog</a></h1>
+      
+      <div class="tag-line">
+        An area where the developer and the geek side of me writes and blogs
+      </div>
+      
+      <div class="sns-links hidden-print">
+  
+  
+  <a href="https://twitter.com/kamlan19922" target="_blank">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="https://github.com/mohadkamil" target="_blank">
+    <i class="fa fa-github"></i>
+  </a>
+  
+  
+  
+  
+  
+  
+  <a href="https://linkedin.com/in/mohammed-kamil-80bb0495" target="_blank">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+</div>
+
+      
+      <a href="http://mohadkamil.github.com/" class="btn-header btn-back hidden-xs">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+        &nbsp;Home
+      </a>
+      
+      
+    </section>
+  </header>
+  <main class="container">
+
+
+<article>
+  <header>
+    <h1 class="text-primary">Migrating to VSTS</h1>
+    <div class="post-meta clearfix">
+    
+      <div class="post-date pull-left">
+        Posted on
+        <time datetime="2018-03-01T20:21:00&#43;02:00">
+          Mar 1, 2018
+        </time>
+      </div>
+    
+      <div class="pull-right">
+        
+      </div>
+    </div>
+  </header>
+  <section>
+    
+
+<p>At work a need arose for migrating a project with 4 years worth of history from our on premise TFS to the online visual studio team services (VSTS), completing the migration, I though I would share the workflow and steps for migrating a project from local TFS to VSTS, and the gotchas and consideration you need to be aware of.</p>
+
+<h3 id="but-first-why-would-you-want-to-migrate">But first, Why would you want to migrate?</h3>
+
+<p>It could be for couple of reasons, one of them is to tap into the up to date features of the online VSTS, while the on-premise offering of TFS gets updated, the cadence at which the online counterpart gets updated are much much higher.
+For large companies and enterprises, managing an on premise solution for development is an acceptable overhead, for compliance reasons and others, but that wasn’t true in our case, migrating to cloud meant more leaner setup, as managing the on-premise TFS was in it self a hussle.
+So if you deemed migrating a project from on-premise TFS to online VSTS something valuable, them keep reading.</p>
+
+<h1 id="migration-strategies">Migration strategies</h1>
+
+<p>You have two options for migrating your project in regards to preserving the history, you can add your latest version of your project source code files to VSTS, that’s the easiest way and your source code is in the cloud, but of course you lose your history, this can&rsquo;t be possible if you have work on branches that haven’t been merged to your main or the trunk branch, but if you can go with it, it&rsquo;s certainly the easiest.</p>
+
+<p>The other approach is to migrate your project while preserving its history, to achieve that we need two tools in our toolbelt</p>
+
+<ol>
+<li>Git-tfs</li>
+<li>Git-tf</li>
+</ol>
+
+<p>Both of these two tools can be installed using <a href="https://chocolatey.org/">chocolatey package manager</a></p>
+
+<pre><code class="language-powershell">Choco install gittfs -y
+Choco install git-tf -y
+</code></pre>
+
+<p>If you see git and tfs names combined in the name of these two tools and guess the functionality of them, then probably you are right, a bit of background here, TFS uses a central source control system dupped TFVC, in which all changes and check-ins happens on a central server, and you interact through a client -most likely instrumented using visual studio- to perform source control operation, you can think of it same as client server architecture of the web application, where on the other hand git is distributed in sense that there is no central server that hold the repository and it’s changes, all source control operation happens against the local repo, so at all times -after cloning the repo- you have a full copy of the repo with its history.
+And the idea here is to use these tools copy the project history from the local tfs server, convert them to git commits, and instrument the vsts and check in each commit again as a changeset.</p>
+
+<p><img src="/images/vsts-migration/vsts-migration-workflow.png" alt="VSTS migrationWorkflow" /></p>
+
+<p>Next step is to check out the project we want to migrate with all of its history to local disk, you can do this by running this command, we do this  using the first tool in our toolbelt</p>
+
+<pre><code class="language-Powershell">git-tfs clone http://tfsserver:8080/tfs/defaultCollection '$/Path/To/Project' . --batch-size=2147483647 --branches=none
+</code></pre>
+
+<p>Make sure to sub in your local tfs server url, and the path to your project.</p>
+
+<p>A couple of noteworthy comments here,git-tfs allows you to copy a project and specify how to handle branches, you can either pass all to clone all your project branches, this can be helpful if you develop using some branching strategy, in our case though and while the project history did have feature branches, keeping the other branches history wasn’t necessary as they were epharmal branches that was merged to trunk, and hence the none option, the other option is the batch-size, this option
+determines the size of the batch of tfs changesets fetched, the general rule of thumb is to make it as high as you can, you can test with higher number and see the tool memory usage if it acceptable, taking a glance at the code you can see that the option is defined as int so your upper limit is int.MaxSize</p>
+
+<pre><code class="language-csharp">public int BatchSize
+{
+    set { _loader.Override(GitTfsConstants.BatchSize,value); }
+    get { return _loader.Get(GitTfsConstants.BatchSize, 100); }
+}
+</code></pre>
+
+<p>Depending on the history of your project, the cloning can take some time, by the end of cloning you will have a local git repository with a commit for each changeset on the tfs server, next step is to check-in those commits to the vsts, git-tfs tool works on both ways, so you can use the same tool to commit the changes to the vsts, but it’s better you use the other tool to do so, this will create an uplink from the local git repo to the vsts project to transfer the each commit and check them to vsts while preserving the downlink from the local tfs,</p>
+
+<pre><code class="language-powershell">git-tf configure https://yourtfsinstancename.visualstudio.com $/Destination/Project/Path
+</code></pre>
+
+<p>This will configure the tool and bind the current git repository to this vsts instance on this specified project, git-tf requires that the folder specified to be empty, and the user you use on authentication should have &ldquo;check in other users&rsquo; changes&rdquo; permission.</p>
+
+<p><img src="/images/vsts-migration/others-checkin-permission.png" alt="VSTS migrationWorkflow" title="check other users' changes permission screen" /></p>
+
+<pre><code class="language-PowerShell">git-tf checkin -–keep-author --deep
+</code></pre>
+
+<p>This will instrument the vsts instance and create a tfs changeset for each git commit (since <code>--deep</code> swich is specified) and check it in to the source control, the other options &ndash;keep-authors instructs git-tf tool to preserve each commit user in the check-in operation, the default behaviour will check-in all the changes using the user its credentials was providing in the checkin command, to preserve the git commit author you can specify this option and the tool will use commit’s author git username to check-in the change set, if no user in the vsts users were found that matches the git user name git-tf will error with an error message stating that some users can’t be mapped to vsts users and will emit a mapping file with the list of mapping for you to complete.</p>
+
+<p>Note also that the usernames used in mapping (your users emails) needs to be microsoft live accounts, so if you sent invites to some users on their personal emails, you will need to make sure they created their microsoft account or else they can&rsquo;t be valid mapping account.</p>
+
+<h1 id="final-steps">Final steps</h1>
+
+<p>This migration step will take awhile depending on the history of your project and your internet speed (it took me 5 days for a project with 4 years worth of history) and you can’t prohibit other team members from working on the local TFS during this period, and the good news is; you don’t need to, as this approach will allow you to incrementally pull down new changesets from local TFS to your local git repo and then to the vsts, the initial clone operation using git-tfs will take a note of the last changeset at time of running the clone command, and will start cloning from the first one up to this changeset, after which you can just fetch any new changesets to your repo using</p>
+
+<pre><code class="language-Powershell">git-tfs fetch
+</code></pre>
+
+<p>This will fetch the changesets not checked out on the repo and create a commit for each one, after which you can continue with the second lane and use git-tf to check in those new commits to vsts and they will correctly land as changesets on the vsts source control,note that since the two tools will create different branch coupled with the configured remote  you can do this many times to match the history on your vsts source control with the one on your local tfs, the only guide is to not check in any other changeset to the vsts project while migrating the project as it may lead to conflict.
+When you have all of your changeset in your vsts project, and you check the health vital reads of your project using build for example you can nod your other team members on the shoulder and ask them to move to vsts project, to reduce confusion you could also make the old project read only.
+this operation may take some time depending on the volume of history in your project</p>
+
+<p><img src="/images/vsts-migration/branches.png" alt="VSTS migrationWorkflow" title="list of branches at the end" /></p>
+
+<p>Also note that the <code>git-tfs fech</code> command will pull changesets from the tfs to the remote git branch miroring the tfs project, and since the uplink transfer commits from the master branch you will need to merge these commits to master, at this stage if you are tired, and don&rsquo;t remember git merge commands, you can just use <a href="https://desktop.github.com">Github for Windows</a> or any other GUI git client.</p>
+
+  </section>
+  <footer>
+    
+    
+    <hr/>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = 'mohadkamil-github-io';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+    
+    <section class="author-info row">
+      <div class="author-avatar col-md-2">
+        
+        <img alt="Author Avatar" src="/avatars/avatar.jpg" />
+        
+      </div>
+      <div class="author-meta col-md-6">
+        
+        <h1 class="author-name text-primary">Mohammed Kamil</h1>
+        
+        
+        <div class="author-bio">My name is Mohammed Kamil , I am a Sudanese software developer , eager to learn any thing in the realm of computer and software engineering</div>
+        
+      </div>
+      
+    </section>
+    <ul class="pager">
+      
+      <li class="previous"><a href="http://mohadkamil.github.com/posts/helloworld/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      
+      
+      <li class="next disabled"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+  </main>
+  <footer class="container global-footer">
+    <div class="copyright-note pull-left">
+      
+    </div>
+    <div class="sns-links hidden-print">
+  
+  
+  <a href="https://twitter.com/kamlan19922" target="_blank">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="https://github.com/mohadkamil" target="_blank">
+    <i class="fa fa-github"></i>
+  </a>
+  
+  
+  
+  
+  
+  
+  <a href="https://linkedin.com/in/mohammed-kamil-80bb0495" target="_blank">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+</div>
+
+  </footer>
+
+  <script src="http://mohadkamil.github.com/js/highlight.pack.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-114679477-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+  
+</body>
+</html>
+
