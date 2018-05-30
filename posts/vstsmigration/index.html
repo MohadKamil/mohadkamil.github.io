@@ -98,13 +98,13 @@
   <section>
     
 
-<p>At work a need arose for migrating a project with 4 years worth of history from our on premise TFS to the online visual studio team services (VSTS), completing the migration, I though I would share the workflow and steps for migrating a project from local TFS to VSTS, and the gotchas and consideration you need to be aware of.</p>
+<p>At work a need arose for migrating a project with 4 years worth of history from our on-premise TFS to the online visual studio team services (VSTS), completing the migration, I thought I would share the workflow and steps for migrating a project from local TFS to VSTS, and the gotchas and consideration you need to be aware of.</p>
 
 <h3 id="but-first-why-would-you-want-to-migrate">But first, Why would you want to migrate?</h3>
 
-<p>It could be for couple of reasons, one of them is to tap into the up to date features of the online VSTS, while the on-premise offering of TFS gets updated, the cadence at which the online counterpart gets updated are much much higher.
-For large companies and enterprises, managing an on premise solution for development is an acceptable overhead, for compliance reasons and others, but that wasn’t true in our case, migrating to cloud meant more leaner setup, as managing the on-premise TFS was in it self a hussle.
-So if you deemed migrating a project from on-premise TFS to online VSTS something valuable, them keep reading.</p>
+<p>It could be for a couple of reasons, one of them is to tap into the up to date features of the online VSTS, while the on-premise offering of TFS gets updated, the cadence at which the online counterpart gets updated is much much higher.
+For large companies and enterprises, managing an on-premise solution for development is an acceptable overhead, for compliance reasons and others, but that wasn’t true in our case, migrating to cloud meant leaner setup, as managing the on-premise TFS was in itself a hassle.
+So if you deemed migrating a project from on-premise TFS to online VSTS something valuable, then keep reading.</p>
 
 <h1 id="migration-strategies">Migration strategies</h1>
 
@@ -123,8 +123,8 @@ So if you deemed migrating a project from on-premise TFS to online VSTS somethin
 Choco install git-tf -y
 </code></pre>
 
-<p>If you see git and tfs names combined in the name of these two tools and guess the functionality of them, then probably you are right, a bit of background here, TFS uses a central source control system dupped TFVC, in which all changes and check-ins happens on a central server, and you interact through a client -most likely instrumented using visual studio- to perform source control operation, you can think of it same as client server architecture of the web application, where on the other hand git is distributed in sense that there is no central server that hold the repository and it’s changes, all source control operation happens against the local repo, so at all times -after cloning the repo- you have a full copy of the repo with its history.
-And the idea here is to use these tools copy the project history from the local tfs server, convert them to git commits, and instrument the vsts and check in each commit again as a changeset.</p>
+<p>If you see git and tfs names combined in the name of these two tools and guess the functionality of them, then probably you are right, a bit of background here, TFS uses a central source control system dupped TFVC, in which all changes and check-ins happens on a central server, and you interact with through a client -most likely instrumented using visual studio- to perform source control operation, you can think of it same as client server architecture of the web application, where on the other hand git is distributed in sense that there is no central server that holds the repository and its changes, all source control operation happens against the local repo, so at all times -after cloning the repo- you have a full copy of the repo with its history.
+And the idea here is to use these tools copy the project history from the local TFS server, convert them to git commits, and instrument the vsts and check in each commit again as a changeset.</p>
 
 <p><img src="/images/vsts-migration/vsts-migration-workflow.png" alt="VSTS migrationWorkflow" /></p>
 
@@ -133,9 +133,9 @@ And the idea here is to use these tools copy the project history from the local 
 <pre><code class="language-Powershell">git-tfs clone http://tfsserver:8080/tfs/defaultCollection '$/Path/To/Project' . --batch-size=2147483647 --branches=none
 </code></pre>
 
-<p>Make sure to sub in your local tfs server url, and the path to your project.</p>
+<p>Make sure to sub in your local TFS server URL, and the path to your project.</p>
 
-<p>A couple of noteworthy comments here,git-tfs allows you to copy a project and specify how to handle branches, you can either pass all to clone all your project branches, this can be helpful if you develop using some branching strategy, in our case though and while the project history did have feature branches, keeping the other branches history wasn’t necessary as they were epharmal branches that was merged to trunk, and hence the none option, the other option is the batch-size, this option
+<p>A couple of noteworthy comments here,git-tfs allows you to copy a project and specify how to handle branches, you can either pass all to clone all your project branches, this can be helpful if you develop using some branching strategy, in our case though and while the project history did have feature branches, keeping the other branches history wasn’t necessary as they were epharmal branches that were merged to trunk, and hence the none option, the other option is the batch-size, this option
 determines the size of the batch of tfs changesets fetched, the general rule of thumb is to make it as high as you can, you can test with higher number and see the tool memory usage if it acceptable, taking a glance at the code you can see that the option is defined as int so your upper limit is int.MaxSize</p>
 
 <pre><code class="language-csharp">public int BatchSize
@@ -145,7 +145,7 @@ determines the size of the batch of tfs changesets fetched, the general rule of 
 }
 </code></pre>
 
-<p>Depending on the history of your project, the cloning can take some time, by the end of cloning you will have a local git repository with a commit for each changeset on the tfs server, next step is to check-in those commits to the vsts, git-tfs tool works on both ways, so you can use the same tool to commit the changes to the vsts, but it’s better you use the other tool to do so, this will create an uplink from the local git repo to the vsts project to transfer the each commit and check them to vsts while preserving the downlink from the local tfs,</p>
+<p>Depending on the history of your project, the cloning can take some time, by the end of cloning you will have a local git repository with a commit for each changeset on the tfs server, next step is to check-in those commits to the vsts, git-tfs tool works on both ways, so you can use the same tool to commit the changes to the vsts, but it’s better you use the other tool to do so, this will create an uplink from the local git repo to the vsts project to transfer each commit and check them to vsts while preserving the downlink from the local tfs,</p>
 
 <pre><code class="language-powershell">git-tf configure https://yourtfsinstancename.visualstudio.com $/Destination/Project/Path
 </code></pre>
@@ -159,7 +159,7 @@ determines the size of the batch of tfs changesets fetched, the general rule of 
 
 <p>This will instrument the vsts instance and create a tfs changeset for each git commit (since <code>--deep</code> swich is specified) and check it in to the source control, the other options &ndash;keep-authors instructs git-tf tool to preserve each commit user in the check-in operation, the default behaviour will check-in all the changes using the user its credentials was providing in the checkin command, to preserve the git commit author you can specify this option and the tool will use commit’s author git username to check-in the change set, if no user in the vsts users were found that matches the git user name git-tf will error with an error message stating that some users can’t be mapped to vsts users and will emit a mapping file with the list of mapping for you to complete.</p>
 
-<p>Note also that the usernames used in mapping (your users emails) needs to be microsoft live accounts, so if you sent invites to some users on their personal emails, you will need to make sure they created their microsoft account or else they can&rsquo;t be valid mapping account.</p>
+<p>Note also that the usernames used in mapping (your users emails) needs to be a Microsoft live accounts, so if you sent invites to some users on their personal emails, you will need to make sure they created their Microsoft account or else they can&rsquo;t be valid mapping account.</p>
 
 <h1 id="final-steps">Final steps</h1>
 
@@ -169,12 +169,12 @@ determines the size of the batch of tfs changesets fetched, the general rule of 
 </code></pre>
 
 <p>This will fetch the changesets not checked out on the repo and create a commit for each one, after which you can continue with the second lane and use git-tf to check in those new commits to vsts and they will correctly land as changesets on the vsts source control,note that since the two tools will create different branch coupled with the configured remote  you can do this many times to match the history on your vsts source control with the one on your local tfs, the only guide is to not check in any other changeset to the vsts project while migrating the project as it may lead to conflict.
-When you have all of your changeset in your vsts project, and you check the health vital reads of your project using build for example you can nod your other team members on the shoulder and ask them to move to vsts project, to reduce confusion you could also make the old project read only.
+When you have all of your changeset in your vsts project, and you check the health vital reads of your project using build, for example, you can nod your other team members on the shoulder and ask them to move to vsts project, to reduce confusion you could also make the old project read-only.
 this operation may take some time depending on the volume of history in your project</p>
 
 <p><img src="/images/vsts-migration/branches.png" alt="VSTS migrationWorkflow" title="list of branches at the end" /></p>
 
-<p>Also note that the <code>git-tfs fech</code> command will pull changesets from the tfs to the remote git branch miroring the tfs project, and since the uplink transfer commits from the master branch you will need to merge these commits to master, at this stage if you are tired, and don&rsquo;t remember git merge commands, you can just use <a href="https://desktop.github.com">Github for Windows</a> or any other GUI git client.</p>
+<p>Also note that the <code>git-tfs fetch</code> command will pull changesets from the tfs to the remote git branch mirroring the TFS project, and since the uplink transfer commits from the master branch you will need to merge these commits to master, at this stage if you are tired, and don&rsquo;t remember git merge commands, you can just use <a href="https://desktop.github.com">Github for Windows</a> or any other GUI git client.</p>
 
   </section>
   <footer>
