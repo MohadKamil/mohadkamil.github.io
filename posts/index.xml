@@ -6,10 +6,19 @@
     <description>Recent content in Posts on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 01 Mar 2018 20:21:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 04 Jun 2018 15:20:00 +0200</lastBuildDate>
     
 	<atom:link href="http://mohadkamil.github.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>VSTS as CMS</title>
+      <link>http://mohadkamil.github.com/posts/vsts-cms/</link>
+      <pubDate>Mon, 04 Jun 2018 15:20:00 +0200</pubDate>
+      
+      <guid>http://mohadkamil.github.com/posts/vsts-cms/</guid>
+      <description>Blogging for the duration of two posts -that&amp;rsquo;s a long time in blog years :)-, I thought I would share the blogging platform I use, and it would be good to talk about the steps required to publish a post, for me I came to choose and love hugo to build this blog, Hugo is static site generator written in go, the idea is simple but powerful, you write your content in markdown and through Hugo these posts (or whatever content) get compiled to static code -HTML,CSS and javascript in the case of web-, having your blog served as only static files makes it super fast and it plays great with CDN like Cloudflare which I am planning on using in the near future.</description>
+    </item>
     
     <item>
       <title>Migrating to VSTS</title>

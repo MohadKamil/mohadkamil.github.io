@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://mohadkamil.github.com/posts/vsts-cms/</loc>
+    <lastmod>2018-06-04T15:10:23+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://mohadkamil.github.com/posts/vstsmigration/</loc>
     <lastmod>2018-05-30T23:06:42+00:00</lastmod>
   </url>
@@ -19,7 +24,7 @@
   
   <url>
     <loc>http://mohadkamil.github.com/posts/</loc>
-    <lastmod>2018-05-30T23:06:42+00:00</lastmod>
+    <lastmod>2018-06-04T15:10:23+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -30,7 +35,7 @@
   
   <url>
     <loc>http://mohadkamil.github.com/</loc>
-    <lastmod>2018-05-30T23:06:42+00:00</lastmod>
+    <lastmod>2018-06-04T15:10:23+00:00</lastmod>
     <priority>0</priority>
   </url>
   
