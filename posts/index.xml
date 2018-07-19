@@ -6,10 +6,20 @@
     <description>Recent content in Posts on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 04 Jun 2018 15:20:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 19 Jul 2018 15:20:00 +0200</lastBuildDate>
     
 	<atom:link href="http://mohadkamil.github.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>static analysis on the go</title>
+      <link>http://mohadkamil.github.com/posts/static-analysis-on-the-go/</link>
+      <pubDate>Thu, 19 Jul 2018 15:20:00 +0200</pubDate>
+      
+      <guid>http://mohadkamil.github.com/posts/static-analysis-on-the-go/</guid>
+      <description>Just the other day, I wanted to run a static analysis on a project I am working on, to know the number of lines of codes mainly, and to see other metrics.
+There are good static analysis tools out there, and the one we had a pleasurable experience with at work is sonarqube, so I went with it, but sonarqube is a server application and requires some dependencies to run, and I didn&amp;rsquo;t want to install java runtime just to know the number of my project code lines, what could be the solution?</description>
+    </item>
     
     <item>
       <title>VSTS as CMS</title>
