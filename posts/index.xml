@@ -2,50 +2,50 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on kimo&#39;s blog</title>
-    <link>http://mohadkamil.github.com/posts/</link>
+    <link>https://mohadkamil.github.com/posts/</link>
     <description>Recent content in Posts on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 19 Jul 2018 15:20:00 +0200</lastBuildDate>
     
-	<atom:link href="http://mohadkamil.github.com/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://mohadkamil.github.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>static analysis on the go</title>
-      <link>http://mohadkamil.github.com/posts/static-analysis-on-the-go/</link>
+      <link>https://mohadkamil.github.com/posts/static-analysis-on-the-go/</link>
       <pubDate>Thu, 19 Jul 2018 15:20:00 +0200</pubDate>
       
-      <guid>http://mohadkamil.github.com/posts/static-analysis-on-the-go/</guid>
+      <guid>https://mohadkamil.github.com/posts/static-analysis-on-the-go/</guid>
       <description>Just the other day, I wanted to run a static analysis on a project I am working on, to know the number of lines of codes mainly, and to see other metrics.
 There are good static analysis tools out there, and the one we had a pleasurable experience with at work is sonarqube, so I went with it, but sonarqube is a server application and requires some dependencies to run, and I didn&amp;rsquo;t want to install java runtime just to know the number of my project code lines, what could be the solution?</description>
     </item>
     
     <item>
       <title>VSTS as CMS</title>
-      <link>http://mohadkamil.github.com/posts/vsts-cms/</link>
+      <link>https://mohadkamil.github.com/posts/vsts-cms/</link>
       <pubDate>Mon, 04 Jun 2018 15:20:00 +0200</pubDate>
       
-      <guid>http://mohadkamil.github.com/posts/vsts-cms/</guid>
+      <guid>https://mohadkamil.github.com/posts/vsts-cms/</guid>
       <description>Blogging for the duration of two posts -that&amp;rsquo;s a long time in blog years :)-, I thought I would share the blogging platform I use, and it would be good to talk about the steps required to publish a post, for me I came to choose and love hugo to build this blog, Hugo is static site generator written in go, the idea is simple but powerful, you write your content in markdown and through Hugo these posts (or whatever content) get compiled to static code -HTML,CSS and javascript in the case of web-, having your blog served as only static files makes it super fast and it plays great with CDN like Cloudflare which I am planning on using in the near future.</description>
     </item>
     
     <item>
       <title>Migrating to VSTS</title>
-      <link>http://mohadkamil.github.com/posts/vstsmigration/</link>
+      <link>https://mohadkamil.github.com/posts/vstsmigration/</link>
       <pubDate>Thu, 01 Mar 2018 20:21:00 +0200</pubDate>
       
-      <guid>http://mohadkamil.github.com/posts/vstsmigration/</guid>
+      <guid>https://mohadkamil.github.com/posts/vstsmigration/</guid>
       <description>At work a need arose for migrating a project with 4 years worth of history from our on-premise TFS to the online visual studio team services (VSTS), completing the migration, I thought I would share the workflow and steps for migrating a project from local TFS to VSTS, and the gotchas and consideration you need to be aware of.
 But first, Why would you want to migrate? It could be for a couple of reasons, one of them is to tap into the up to date features of the online VSTS, while the on-premise offering of TFS gets updated, the cadence at which the online counterpart gets updated is much much higher.</description>
     </item>
     
     <item>
       <title>Hello world</title>
-      <link>http://mohadkamil.github.com/posts/helloworld/</link>
+      <link>https://mohadkamil.github.com/posts/helloworld/</link>
       <pubDate>Sat, 28 May 2016 23:23:41 +0200</pubDate>
       
-      <guid>http://mohadkamil.github.com/posts/helloworld/</guid>
+      <guid>https://mohadkamil.github.com/posts/helloworld/</guid>
       <description>he first program you write when you learn a new programming language is the famous Hello world program , and as such, this is my hello world blog post , I will return soon to talk more about many interesting topics , but now I was able to say Hello to the world , and that’s enough for now.</description>
     </item>
     
