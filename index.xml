@@ -6,10 +6,20 @@
     <description>Recent content on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Jul 2018 15:20:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 Mar 2019 13:23:26 +0400</lastBuildDate>
     
 	<atom:link href="https://mohadkamil.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Automating WPF Deployment - Take 1</title>
+      <link>https://mohadkamil.github.io/posts/automating-wpf-deployment-take1/</link>
+      <pubDate>Wed, 27 Mar 2019 13:23:26 +0400</pubDate>
+      
+      <guid>https://mohadkamil.github.io/posts/automating-wpf-deployment-take1/</guid>
+      <description>Automating deployment tasks is one of the pivotal operations in DevOps, lifting the repetitive tasks will allow the developers to focus on the thing they are good at, which is writing code, and will yield a deployment mechanism that is repetitive and error-prone.
+And the area we want to automate today is the deployment of a WPF application, specifically the creation and publishing of a ClickOnce package, in this post I will demo one way of accomplishing this task, and in a future one, another method will be used.</description>
+    </item>
     
     <item>
       <title>static analysis on the go</title>
