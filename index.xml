@@ -6,10 +6,20 @@
     <description>Recent content on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Mar 2019 13:23:26 +0400</lastBuildDate>
+    <lastBuildDate>Sat, 31 Aug 2019 13:23:26 +0400</lastBuildDate>
     
 	<atom:link href="https://mohadkamil.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Creating Dev box in azure, putting packer into good use</title>
+      <link>https://mohadkamil.github.io/posts/creatingdevbox/</link>
+      <pubDate>Sat, 31 Aug 2019 13:23:26 +0400</pubDate>
+      
+      <guid>https://mohadkamil.github.io/posts/creatingdevbox/</guid>
+      <description>The laptop I&amp;rsquo;m currently writing this blog post in had a serious issue, it was laggy and slow making small actions a chore, opening a word document could take minutes, I didn&amp;rsquo;t even dare open visual studio, VsCode was all I can do, luckily for me azure cloud shell and the enabled me to survive, well, until I finally upgraded its hard disk to an SSD.
+But in the middle of all this pain, I had an idea, why not build a virtual machine and configure it with all of my development tools, and remote into it and get freed from my laptop constraints, and that&amp;rsquo;s what I did.</description>
+    </item>
     
     <item>
       <title>Automating WPF Deployment - Take 1</title>
