@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#hexcolor" />
  
   <meta property="og:site_name" content="kimo&#39;s blog" />
-  <meta property="og:url" content="https://mohadkamil.github.io/posts/creatingdevbox/" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/creatingdevbox/" />
   
   
   <meta property="og:type" content="article" />
@@ -21,19 +21,19 @@
      Creating Dev box in azure, putting packer into good use &middot;  kimo&#39;s blog
   </title>
 
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/github.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/main.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/github.css" />
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400" type="text/css">
-  <link rel="shortcut icon" href="https://mohadkamil.github.io/images/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://mohadkamil.github.io/images/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="https://mohadkamil.tech/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://mohadkamil.tech/images/apple-touch-icon.png" />
   
 </head>
 <body>
     <header class="global-header"  style="background-image:url( /images/bg.jpg )">
     <section class="header-text">
-      <h1><a href="https://mohadkamil.github.io/">kimo&#39;s blog</a></h1>
+      <h1><a href="https://mohadkamil.tech/">kimo&#39;s blog</a></h1>
       
       <div class="tag-line">
         An area where the developer and the geek side of me writes and blogs
@@ -67,7 +67,7 @@
 </div>
 
       
-      <a href="https://mohadkamil.github.io/" class="btn-header btn-back hidden-xs">
+      <a href="https://mohadkamil.tech/" class="btn-header btn-back hidden-xs">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
         &nbsp;Home
       </a>
@@ -96,125 +96,96 @@
     </div>
   </header>
   <section>
-    
-
-<p>The laptop I&rsquo;m currently writing this blog post in had a serious issue, it was laggy and slow making small actions a chore,
+    <p>The laptop I&rsquo;m currently writing this blog post in had a serious issue, it was laggy and slow making small actions a chore, 
 opening a word document could take minutes, I didn&rsquo;t even dare open visual studio, VsCode was all I can do, luckily for
 me azure cloud shell and the enabled me to survive, well, until I finally upgraded its hard disk to an SSD.</p>
-
-<p>But in the middle of all this pain, I had an idea, why not build a virtual machine and configure it with all of my development tools, and remote into it and get freed from my laptop constraints, and that&rsquo;s what I did. and
+<p>But in the middle of all this pain, I had an idea, why not build a virtual machine and configure it with all of my development tools, and remote into it and get freed from my laptop constraints, and that&rsquo;s what I did. and 
 here&rsquo;s the recipe.</p>
-
 <h3 id="the-first-ingredient-one-teaspoon-of-azure">The First Ingredient, one teaspoon of Azure</h3>
-
 <p>To spin a virtual machine I decided to go with Azure, Azure provides compute service that allows you to spin Linux
 and Windows virtual machines in minutes, I can choose the size depending on the CPU, RAM I need for my cloud dev box.
 but to build the dev box <em>image</em> I need another tool.</p>
-
-<h3 id="second-ingredient-one-teaspoon-of-packer">Second Ingredient,one teaspoon of Packer</h3>
-
+<h3 id="second-ingredientone-teaspoon-of-packer">Second Ingredient,one teaspoon of Packer</h3>
 <p>I went for <a href="https://www.packer.io">packer</a>, packer automates the creation of machine images, it uses the concept of
 builder with a configuration written in JSON to automate the build process, spinning the base image, installing the updates (if you want)
 and provisioning the image, all of that can be automated using packer.</p>
-
 <h3 id="third-ingredient-a-handful-of-powershell-scripts">Third Ingredient, a handful of PowerShell scripts</h3>
-
-<p>To provision and install my development tools on the image, we need to use packer script provisioner to execute
-the installation scripts, to make it easier, I am going to use chocolatey for the installation of the
+<p>To provision and install my development tools on the image, we need to use packer script provisioner to execute 
+the installation scripts, to make it easier, I am going to use chocolatey for the installation of the 
 packages, chocolatey reduces the steps needed to install an app to just</p>
-
-<pre><code class="language-powershell">choco install -y 'package-name'
-</code></pre>
-
-<p>the packages I am going to install are, Visual Studio, Git, Resharper, Insomnia (a great HTTP client), LINQPad,
-and localdb, installation commands for these packages are straight forward, for brevity I am going to skip the
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">choco install -y <span style="color:#e6db74">&#39;package-name&#39;</span>
+</code></pre></div><p>the packages I am going to install are, Visual Studio, Git, Resharper, Insomnia (a great HTTP client), LINQPad,
+and localdb, installation commands for these packages are straight forward, for brevity I am going to skip the 
 contents of scripts, but you can check the repo <a href="https://github.com/MohadKamil/DevBox">here</a>.</p>
-
 <h3 id="fourth-ingredient-one-build-template">Fourth Ingredient, one build template</h3>
-
-<p>packer takes a <a href="https://www.packer.io/docs/templates/index.html">build template</a> file defined in JSON, so we
+<p>packer takes a <a href="https://www.packer.io/docs/templates/index.html">build template</a> file defined in JSON, so we 
 are going to create that</p>
-
-<pre><code class="language-powershell">touch devBoxTemplate.json
-</code></pre>
-
-<p>I&rsquo;m going to use <a href="https://www.packer.io/docs/builders/azure.html">azure builder</a> to create the dev box image, this
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">touch devBoxTemplate.json
+</code></pre></div><p>I&rsquo;m going to use <a href="https://www.packer.io/docs/builders/azure.html">azure builder</a> to create the dev box image, this 
 builder instruments azure through the ARM API, it spins up a virtual machine, using either a custom vhd file,
 or one of the marketplace images as the base image for the VM, then provision the image by applying the provisioners
 defined in the template, the configuration is as follows</p>
-
-<pre><code class="language-json">&quot;description&quot; : &quot;packer template for tracking my dev tools and creating azure image, and installing the list&quot;,
-    &quot;variables&quot; : {
-        &quot;subscription_id&quot; : &quot;{{env `AZURE_SUBSCRIPTION_ID` }}&quot;
-    },
-    &quot;builders&quot; :[{
-        &quot;type&quot; : &quot;azure-arm&quot;,
-        &quot;subscription_id&quot; : &quot;{{user `subscription_id`}}&quot;,
-        &quot;os_type&quot; : &quot;windows&quot;,
-        &quot;managed_image_name&quot; : &quot;devbox&quot;,
-        &quot;managed_image_resource_group_name&quot; : &quot;devbox-resource-group&quot;,
-        &quot;location&quot; : &quot;eastus&quot;,
-        &quot;image_publisher&quot; : &quot;MicrosoftWindowsDesktop&quot;,
-        &quot;image_offer&quot; : &quot;Windows-10&quot;,
-        &quot;image_sku&quot; : &quot;19h1-pro&quot;,
-        &quot;communicator&quot;: &quot;winrm&quot;,
-        &quot;winrm_use_ssl&quot;: true,
-        &quot;winrm_insecure&quot;: true,
-        &quot;winrm_timeout&quot;: &quot;5m&quot;,
-        &quot;winrm_username&quot;: &quot;packer&quot;,
-        &quot;async_resourcegroup_delete&quot; : true
-    }],
-</code></pre>
-
-<p>you can see I am specifying <em>azure-rm</em> as the build type, to use azure builder, also I&rsquo;m using one of the
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;description&#34;</span> <span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#e6db74">&#34;packer template for tracking my dev tools and creating azure image, and installing the list&#34;</span><span style="color:#960050;background-color:#1e0010">,</span>
+    <span style="color:#e6db74">&#34;variables&#34;</span> <span style="color:#960050;background-color:#1e0010">:</span> {
+        <span style="color:#f92672">&#34;subscription_id&#34;</span> : <span style="color:#e6db74">&#34;{{env `AZURE_SUBSCRIPTION_ID` }}&#34;</span>
+    }<span style="color:#960050;background-color:#1e0010">,</span>
+    <span style="color:#e6db74">&#34;builders&#34;</span> <span style="color:#960050;background-color:#1e0010">:</span>[{
+        <span style="color:#f92672">&#34;type&#34;</span> : <span style="color:#e6db74">&#34;azure-arm&#34;</span>,
+        <span style="color:#f92672">&#34;subscription_id&#34;</span> : <span style="color:#e6db74">&#34;{{user `subscription_id`}}&#34;</span>,
+        <span style="color:#f92672">&#34;os_type&#34;</span> : <span style="color:#e6db74">&#34;windows&#34;</span>,
+        <span style="color:#f92672">&#34;managed_image_name&#34;</span> : <span style="color:#e6db74">&#34;devbox&#34;</span>,
+        <span style="color:#f92672">&#34;managed_image_resource_group_name&#34;</span> : <span style="color:#e6db74">&#34;devbox-resource-group&#34;</span>,
+        <span style="color:#f92672">&#34;location&#34;</span> : <span style="color:#e6db74">&#34;eastus&#34;</span>,
+        <span style="color:#f92672">&#34;image_publisher&#34;</span> : <span style="color:#e6db74">&#34;MicrosoftWindowsDesktop&#34;</span>,
+        <span style="color:#f92672">&#34;image_offer&#34;</span> : <span style="color:#e6db74">&#34;Windows-10&#34;</span>,
+        <span style="color:#f92672">&#34;image_sku&#34;</span> : <span style="color:#e6db74">&#34;19h1-pro&#34;</span>,
+        <span style="color:#f92672">&#34;communicator&#34;</span>: <span style="color:#e6db74">&#34;winrm&#34;</span>,
+        <span style="color:#f92672">&#34;winrm_use_ssl&#34;</span>: <span style="color:#66d9ef">true</span>,
+        <span style="color:#f92672">&#34;winrm_insecure&#34;</span>: <span style="color:#66d9ef">true</span>,
+        <span style="color:#f92672">&#34;winrm_timeout&#34;</span>: <span style="color:#e6db74">&#34;5m&#34;</span>,
+        <span style="color:#f92672">&#34;winrm_username&#34;</span>: <span style="color:#e6db74">&#34;packer&#34;</span>,
+        <span style="color:#f92672">&#34;async_resourcegroup_delete&#34;</span> : <span style="color:#66d9ef">true</span>
+    }]<span style="color:#960050;background-color:#1e0010">,</span>
+</code></pre></div><p>you can see I am specifying <em>azure-rm</em> as the build type, to use azure builder, also I&rsquo;m using one of the 
 <em>managed</em> images on the azure market place, specified by the coordinates: <em>image_publisher</em>,<em>image_offer</em> and <em>image_sku</em>
 the image I am using here is a Windows 10 image, this will give us our base windows operating system,
 to install the dev tools we go to the provisiong part.</p>
-
-<pre><code class="language-json">&quot;provisioners&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;provisioners&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
         {
-            &quot;type&quot; : &quot;powershell&quot;,
-            &quot;scripts&quot; : [
-                &quot;Scripts/InstallChocolatey.ps1&quot;,
-                &quot;Scripts/InstallVS2019.ps1&quot;,
-                &quot;Scripts/InstallRider.ps1&quot;,
-                &quot;Scripts/InstallDotNetCore.ps1&quot;,
-                &quot;Scripts/InstallGit.ps1&quot;,
-                &quot;Scripts/InstallInsomnia.ps1&quot;,
-                &quot;Scripts/InstallLinqPad.ps1&quot;,
-                &quot;Scripts/InstallLocalDb.ps1&quot;
+            <span style="color:#f92672">&#34;type&#34;</span> : <span style="color:#e6db74">&#34;powershell&#34;</span>,
+            <span style="color:#f92672">&#34;scripts&#34;</span> : [
+                <span style="color:#e6db74">&#34;Scripts/InstallChocolatey.ps1&#34;</span>,
+                <span style="color:#e6db74">&#34;Scripts/InstallVS2019.ps1&#34;</span>,
+                <span style="color:#e6db74">&#34;Scripts/InstallRider.ps1&#34;</span>,
+                <span style="color:#e6db74">&#34;Scripts/InstallDotNetCore.ps1&#34;</span>,
+                <span style="color:#e6db74">&#34;Scripts/InstallGit.ps1&#34;</span>,
+                <span style="color:#e6db74">&#34;Scripts/InstallInsomnia.ps1&#34;</span>,
+                <span style="color:#e6db74">&#34;Scripts/InstallLinqPad.ps1&#34;</span>,
+                <span style="color:#e6db74">&#34;Scripts/InstallLocalDb.ps1&#34;</span>
             ]
         },
         {
-            &quot;type&quot;: &quot;powershell&quot;,
-            &quot;inline&quot;: [
-                &quot; # NOTE: the following *3* lines are only needed if the you have installed the Guest Agent.&quot;,
-                &quot;  while ((Get-Service RdAgent).Status -ne 'Running') { Start-Sleep -s 5 }&quot;,
-                &quot;  while ((Get-Service WindowsAzureTelemetryService).Status -ne 'Running') { Start-Sleep -s 5 }&quot;,
-                &quot;  while ((Get-Service WindowsAzureGuestAgent).Status -ne 'Running') { Start-Sleep -s 5 }&quot;,
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;powershell&#34;</span>,
+            <span style="color:#f92672">&#34;inline&#34;</span>: [
+                <span style="color:#e6db74">&#34; # NOTE: the following *3* lines are only needed if the you have installed the Guest Agent.&#34;</span>,
+                <span style="color:#e6db74">&#34;  while ((Get-Service RdAgent).Status -ne &#39;Running&#39;) { Start-Sleep -s 5 }&#34;</span>,
+                <span style="color:#e6db74">&#34;  while ((Get-Service WindowsAzureTelemetryService).Status -ne &#39;Running&#39;) { Start-Sleep -s 5 }&#34;</span>,
+                <span style="color:#e6db74">&#34;  while ((Get-Service WindowsAzureGuestAgent).Status -ne &#39;Running&#39;) { Start-Sleep -s 5 }&#34;</span>,
     
-                &quot;&amp; $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit&quot;,
-                &quot;while($true) { $imageState = Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\State | Select ImageState; if($imageState.ImageState -ne 'IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE') { Write-Output $imageState.ImageState; Start-Sleep -s 10  } else { break } }&quot;
+                <span style="color:#e6db74">&#34;&amp; $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit&#34;</span>,
+                <span style="color:#e6db74">&#34;while($true) { $imageState = Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\State | Select ImageState; if($imageState.ImageState -ne &#39;IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE&#39;) { Write-Output $imageState.ImageState; Start-Sleep -s 10  } else { break } }&#34;</span>
             ]
         }
       ]
-</code></pre>
-
-<p>The first provisioner uses PowerShell and passes in the installation scripts,
+</code></pre></div><p>The first provisioner uses PowerShell and passes in the installation scripts,
 first of which installs <a href="https://chocolatey.org/">chocolaty</a> package manager, which is used by the subsequent scripts to install the actual tools. the final step is to deprovision the running VM before capturing it into an image, and that the functionality of the final inline PowerShell provisioner. at which stage packer will capture the state of the temporary VM into a final image.</p>
-
 <h3 id="cooking-step">Cooking step</h3>
-
 <p>once we have our build template ready, we just need to call packer&rsquo;s build command</p>
-
-<pre><code class="language-powershell">packer build ./devBoxTemplate.json
-</code></pre>
-
-<p>packer will spew up log status as the build progress, prefixed by the builder name, <em>azure-arm</em> in our case,
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">packer build ./devBoxTemplate.json
+</code></pre></div><p>packer will spew up log status as the build progress, prefixed by the builder name, <em>azure-arm</em> in our case,
 and the end of the build process, packer will place the image under the resource group we specified
 by <em>managed_image_resource_group_name</em>.</p>
-
-<p><img src="/images/DevBox/Image.png" alt="Devbox Image" title="The Final Product" /></p>
+<p><img src="/images/DevBox/Image.png" alt="Devbox Image" title="The Final Product"></p>
 
   </section>
   <footer>
@@ -254,7 +225,7 @@ by <em>managed_image_resource_group_name</em>.</p>
       <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
       
       
-      <li class="next"><a href="https://mohadkamil.github.io/posts/automating-wpf-deployment-take1/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next"><a href="https://mohadkamil.tech/posts/automating-wpf-deployment-take1/">Newer <span aria-hidden="true">&rarr;</span></a></li>
       
     </ul>
   </footer>
@@ -294,7 +265,7 @@ by <em>managed_image_resource_group_name</em>.</p>
 
   </footer>
 
-  <script src="https://mohadkamil.github.io/js/highlight.pack.js"></script>
+  <script src="https://mohadkamil.tech/js/highlight.pack.js"></script>
   <script>
     hljs.initHighlightingOnLoad();
   </script>

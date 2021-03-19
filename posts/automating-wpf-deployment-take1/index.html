@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#hexcolor" />
  
   <meta property="og:site_name" content="kimo&#39;s blog" />
-  <meta property="og:url" content="https://mohadkamil.github.io/posts/automating-wpf-deployment-take1/" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/automating-wpf-deployment-take1/" />
   
   
   <meta property="og:type" content="article" />
@@ -21,19 +21,19 @@
      Automating WPF Deployment - Take 1 &middot;  kimo&#39;s blog
   </title>
 
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/github.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/main.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/github.css" />
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400" type="text/css">
-  <link rel="shortcut icon" href="https://mohadkamil.github.io/images/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://mohadkamil.github.io/images/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="https://mohadkamil.tech/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://mohadkamil.tech/images/apple-touch-icon.png" />
   
 </head>
 <body>
     <header class="global-header"  style="background-image:url( /images/bg.jpg )">
     <section class="header-text">
-      <h1><a href="https://mohadkamil.github.io/">kimo&#39;s blog</a></h1>
+      <h1><a href="https://mohadkamil.tech/">kimo&#39;s blog</a></h1>
       
       <div class="tag-line">
         An area where the developer and the geek side of me writes and blogs
@@ -67,7 +67,7 @@
 </div>
 
       
-      <a href="https://mohadkamil.github.io/" class="btn-header btn-back hidden-xs">
+      <a href="https://mohadkamil.tech/" class="btn-header btn-back hidden-xs">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
         &nbsp;Home
       </a>
@@ -96,56 +96,35 @@
     </div>
   </header>
   <section>
-    
-
-<p>Automating deployment tasks is one of the pivotal operations in DevOps, lifting the repetitive tasks will allow the developers to focus on the thing they are good at, which is writing code, and will yield a deployment mechanism that is repetitive and error-prone.</p>
-
+    <p>Automating deployment tasks is one of the pivotal operations in DevOps, lifting the repetitive tasks will allow the developers to focus on the thing they are good at, which is writing code, and will yield a deployment mechanism that is repetitive and error-prone.</p>
 <p>And the area we want to automate today is the deployment of a WPF application, specifically the creation and publishing of a ClickOnce package, in this post I will demo one way of accomplishing this task, and in a future one, another method will be used.</p>
-
 <p><strong>A small note</strong> first, this method here is adapted from a build a deploy definition I implemented on my previous work, while it accomplishes the task, it doesn&rsquo;t check all the boxes but it serves as a good starting point, also watch for the second iteration of this series, where I demo a better and more complete solution</p>
-
-<!-- In both ways we want to achieve a deployment mechanism that is fully automated, we need it also to be environment-aware, most application tend to get promoted in a staged environment, from development to testing, to production, each one will have its own set of variable, you may have a different API endpoint for testing and production, you may use feature toggle to mock email calls in testing, hence being able to “inject” those variable depending on the environment is necessary requirement in our deployment mechanism we are going to implement. 
-Most likely your application will be deployed to a different environment -testing, staging, production. Each of those has its own configurations, maybe you have different API endpoints, for a desktop application you may use different icons to distinguish between those incarnations.
-To handle those concerns we are gonna use XML transformation tool called slowcheetah, this tool allows you to define transformation syntax based on the xdt namespace, and apply the transformation based on the build configuration you run the build against. -->
-
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <h4 id="demo-application"><strong>Demo application</strong></h4>
-
 <p>Our demo application will be a small WPF application taken from a <a href="https://github.com/Azure-Samples/active-directory-dotnet-native-aspnetcore-v2">Microsoft Azure sample on Github</a>, you can find a fork <a href="https://github.com/MohadKamil/active-directory-dotnet-native-aspnetcore-v2">here</a>, which have the small modifications needed for the deployment.
 The repository houses two examples, our target app is housed in the folder called <strong>&ldquo;1. Desktop app calls Web API&rdquo;</strong> ,the app itself is a WPF Todo app, interfacing with a ASP.NET core API to store todo lists in memory, and using AAD to authenticate and get permission, in our scenario we have two environments we want to deploy the app to, Staging and Production, with each one having a different endpoint (The API will be deployed to an app service instance).</p>
-
-<p>if we enumerate our deployment steps algorithm
-1. update the app.config file and inject environment specific configurations
-2. generate the ClickOnce package
-3. copy the generated package into the publish destination (which in this case is a container on Azure storage account)</p>
-
+<p>if we enumerate our deployment steps algorithm</p>
+<ol>
+<li>update the app.config file and inject environment specific configurations</li>
+<li>generate the ClickOnce package</li>
+<li>copy the generated package into the publish destination (which in this case is a container on Azure storage account)</li>
+</ol>
 <p>for the first step we will use the SlowCheetah tool which allows us to transform the app.config file on build, first you define a transformation file for each build configuration you have on the solution, and when building the project while enabling a build configuration, the corresponding build configuration will be picked and the tool will transform the app.config based on the defined transformation.
 To satisfy our two environments requirements we will add two new build configurations (release-staging, release-production)</p>
-
-<p><img src="/images/WPF-deployment-1st/configs.jpg" alt="Added Configurations" title="Configuration dialog" /></p>
-
+<p><img src="/images/WPF-deployment-1st/configs.jpg" alt="Added Configurations" title="Configuration dialog"></p>
 <p>for more info on the transformation syntax follow <a href="https://docs.microsoft.com/en-us/previous-versions/aspnet/dd465326(v=vs.110)">this link</a> and for more info on the tool give a visit to the repository at <a href="https://github.com/Microsoft/slow-cheetah">Github</a></p>
-
 <p>For the second step, we as WPF developers are used to generate the ClickOnce package using the publish tab on visual studio, but behind the scene visual studio instrument msbuild to generate the package, msbuild has a build target called publish, when building a WPF project and specifying this target, msbuild will first compile the project and its dependencies (this target depends on the default build target), and will generate the ClickOnce package and place it in an app.publish folder under the bin directory, which what we will use, the command we want to run is</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">
+msbuild TodoListClient.csproj /t:publish /p:PublishUrl=<span style="color:#e6db74">&#34;$(StorageUrl)&#34;</span> /p:InstallUrl=<span style="color:#e6db74">&#34;$(StorageUrl)&#34;</span> /p:Install=true /p:ApplicationVersion=$(Build.BuildNumber) /p:MinimumRequiredVersion=$(Build.BuildNumber) /p:PublisherName=<span style="color:#e6db74">&#34;Mohammed Kamil&#34;</span> /p:ProductName=<span style="color:#e6db74">&#34;AAD Sample&#34;</span> /p:BootstrapperEnabled=true  /p:IsWebBootstrapper=true /p:SolutionDir=<span style="color:#e6db74">&#34;1. Desktop app calls Web API/Desktop-App-calls-Web-API.sln&#34;</span>
 
-<pre><code class="language-cmd">
-msbuild TodoListClient.csproj /t:publish /p:PublishUrl=&quot;$(StorageUrl)&quot; /p:InstallUrl=&quot;$(StorageUrl)&quot; /p:Install=true /p:ApplicationVersion=$(Build.BuildNumber) /p:MinimumRequiredVersion=$(Build.BuildNumber) /p:PublisherName=&quot;Mohammed Kamil&quot; /p:ProductName=&quot;AAD Sample&quot; /p:BootstrapperEnabled=true  /p:IsWebBootstrapper=true /p:SolutionDir=&quot;1. Desktop app calls Web API/Desktop-App-calls-Web-API.sln&quot;
-
-</code></pre>
-
-<p>AS you can see,we are making use of variables either predefined on azure build pipline -Build.BuildNumber for example -, or our own custom variables, like $(StorageUrl) which points to the blob storage that will serve the ClickOnce installer.</p>
-
-<p><img src="/images/WPF-deployment-1st/vsbuild.jpg" alt="Added Configurations" title="Visual Studio build task" /></p>
-
+</code></pre></div><p>AS you can see,we are making use of variables either predefined on azure build pipline -Build.BuildNumber for example -, or our own custom variables, like $(StorageUrl) which points to the blob storage that will serve the ClickOnce installer.</p>
+<p><img src="/images/WPF-deployment-1st/vsbuild.jpg" alt="Added Configurations" title="Visual Studio build task"></p>
 <p>finally, we copy the ClickOnce bits to the storage account, DevOps pipeline has a ready-made azure copy step we can use for the purpose, the full configuration of the step is as follows</p>
-
-<p><img src="/images/WPF-deployment-1st/AzureBlob.jpg" alt="image here" title="Azure Copy Task" /></p>
-
+<p><img src="/images/WPF-deployment-1st/AzureBlob.jpg" alt="image here" title="Azure Copy Task"></p>
 <p>the container name option in the azure copy step could refer to an already created container, otherwise it will be created on the copy, you need to make sure to set the access level to blob (anonymous read access for blobs only), to allow both the user and the ClickOnce installer from accessing and downloading the app bits.</p>
-
-<p><img src="/images/WPF-deployment-1st/blob-access-level.jpg" alt="Blob Access Level" title="Blob Access Level" /></p>
-
+<p><img src="/images/WPF-deployment-1st/blob-access-level.jpg" alt="Blob Access Level" title="Blob Access Level"></p>
 <p>what we have now is a build pipeline to create a ClickOnce package configured for the staging environment, the story for the production is similar, with a similar pipeline the difference is only on the pipeline variables, which will bring in the required behavior needed in the production version.</p>
-
 <table>
 <thead>
 <tr>
@@ -154,20 +133,17 @@ msbuild TodoListClient.csproj /t:publish /p:PublishUrl=&quot;$(StorageUrl)&quot;
 <th>Production</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>BuildConfiguration</td>
 <td>Release-Staging</td>
 <td>Release-Production</td>
 </tr>
-
 <tr>
 <td>BuildPlatform</td>
 <td>AnyCPU</td>
 <td>AnyCPU</td>
 </tr>
-
 <tr>
 <td>Container</td>
 <td>staging</td>
@@ -211,10 +187,10 @@ msbuild TodoListClient.csproj /t:publish /p:PublishUrl=&quot;$(StorageUrl)&quot;
     </section>
     <ul class="pager">
       
-      <li class="previous"><a href="https://mohadkamil.github.io/posts/creatingdevbox/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      <li class="previous"><a href="https://mohadkamil.tech/posts/creatingdevbox/"><span aria-hidden="true">&larr;</span> Older</a></li>
       
       
-      <li class="next"><a href="https://mohadkamil.github.io/posts/static-analysis-on-the-go/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next"><a href="https://mohadkamil.tech/posts/static-analysis-on-the-go/">Newer <span aria-hidden="true">&rarr;</span></a></li>
       
     </ul>
   </footer>
@@ -254,7 +230,7 @@ msbuild TodoListClient.csproj /t:publish /p:PublishUrl=&quot;$(StorageUrl)&quot;
 
   </footer>
 
-  <script src="https://mohadkamil.github.io/js/highlight.pack.js"></script>
+  <script src="https://mohadkamil.tech/js/highlight.pack.js"></script>
   <script>
     hljs.initHighlightingOnLoad();
   </script>

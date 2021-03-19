@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#hexcolor" />
  
   <meta property="og:site_name" content="kimo&#39;s blog" />
-  <meta property="og:url" content="https://mohadkamil.github.io/posts/vsts-cms/" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/vsts-cms/" />
   
   
   <meta property="og:type" content="article" />
@@ -21,19 +21,19 @@
      VSTS as CMS &middot;  kimo&#39;s blog
   </title>
 
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/github.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/main.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/github.css" />
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400" type="text/css">
-  <link rel="shortcut icon" href="https://mohadkamil.github.io/images/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://mohadkamil.github.io/images/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="https://mohadkamil.tech/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://mohadkamil.tech/images/apple-touch-icon.png" />
   
 </head>
 <body>
     <header class="global-header"  style="background-image:url( /images/bg.jpg )">
     <section class="header-text">
-      <h1><a href="https://mohadkamil.github.io/">kimo&#39;s blog</a></h1>
+      <h1><a href="https://mohadkamil.tech/">kimo&#39;s blog</a></h1>
       
       <div class="tag-line">
         An area where the developer and the geek side of me writes and blogs
@@ -67,7 +67,7 @@
 </div>
 
       
-      <a href="https://mohadkamil.github.io/" class="btn-header btn-back hidden-xs">
+      <a href="https://mohadkamil.tech/" class="btn-header btn-back hidden-xs">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
         &nbsp;Home
       </a>
@@ -96,72 +96,45 @@
     </div>
   </header>
   <section>
-    
-
-<p>Blogging for the duration of two posts -that&rsquo;s a long time in blog years :)-, I thought I would share the blogging platform I use, and it would be good to talk about the steps required to publish a post, for me I came to choose
+    <p>Blogging for the duration of two posts -that&rsquo;s a long time in blog years :)-, I thought I would share the blogging platform I use, and it would be good to talk about the steps required to publish a post, for me I came to choose 
 and love <a href="https://gohugo.io/">hugo</a> to build this blog, Hugo is static site generator written in go, the idea is simple but powerful, you write your content in markdown and through Hugo
 these posts (or whatever content) get compiled to static code -HTML,CSS and javascript in the case of web-, having your blog served as only static files makes it super fast and it plays great with CDN like
 Cloudflare which I am planning on using in the near future.</p>
-
-<p>I want to talk more about hugo and its features, but that&rsquo;s a topic for another post, today I want to shed ligh on the automation setup I employed to automate the build and deploy process of this blog, the previous blog
+<p>I want to talk more about hugo and its features, but that&rsquo;s a topic for another post, today I want to shed ligh on the automation setup I employed to automate the build and deploy process of this blog, the previous blog 
 posts I published, I used Hugo cli installed on my machine to build the static blog bits and push them to Github where I host this blog. going forward though, I thought I would automate and streamline the process more,
 So here we go.</p>
-
 <p>The goal in my automation endevour is to first remove the dependancy on hugo cli,Hugo cli is critical to site creation process,
-but I wanted to elevate the dependency on Hugo cli and have more stripped down, so I can, for example, write posts on my work machine without the need to install Hugo for example. The goal I want to achieve is to make chrome
+but I wanted to elevate the dependency on Hugo cli and have more stripped down, so I can, for example, write posts on my work machine without the need to install Hugo for example. The goal I want to achieve is to make chrome 
 (or any other web browser) the only dependancy I need to write posts, I also want to make publishing this blog a press button task,</p>
-
 <p>VSTS is a good fit for what I want to do, for one, it can render markdown content, so I can write my blog post directly on the online editor, and let the build and release definition do the rest. here for example this post markdown
 opened using VSTS online editor, and it also renders the markdown so you can preview (it is also the name of the render markdown tab) your markdown.</p>
-
-<p><img src="/images/vsts-as-cms/online-editor-v2.png" alt="VSTS editor" title="VSTS online editor" /></p>
-
+<p><img src="/images/vsts-as-cms/online-editor-v2.png" alt="VSTS editor" title="VSTS online editor"></p>
 <p>After you write your content, you will want to publish them, and here release and build definitions come into pla.</p>
-
 <h3 id="build-definition">build definition</h3>
-
-<p><img src="/images/vsts-as-cms/builds-v2.png" alt="build definitions" title="build definitions" /></p>
-
+<p><img src="/images/vsts-as-cms/builds-v2.png" alt="build definitions" title="build definitions"></p>
 <p>I have two build definition the generate staging and live version of this blog, the staging version includes drafts and future posts, and it will be served from an Azure storage blob, this will be a verification step and
 will help in seeing the site as is. the other build definition will build the live blog, which is hosted on GitHub pages.</p>
-
 <p>The build has two steps, one for building the static site itself, for this I used <a href="https://marketplace.visualstudio.com/items?itemName=giuliovdev.hugo-extension">Hugo build tasked</a> on the marketplace with these settings</p>
-
-<p><img src="/images/vsts-as-cms/hugo-build-stagin.png" alt="hugo build step" title="hugo build step" /></p>
-
+<p><img src="/images/vsts-as-cms/hugo-build-stagin.png" alt="hugo build step" title="hugo build step"></p>
 <p>the second step is to package the generated static site as an artifact, and VSTS has a build it task just for this, namely Publish Build Artifacts, from here the release definition will take on.</p>
-
-<p><img src="/images/vsts-as-cms/publish-build-artifacts.png" alt="publish build artifact" title="publish build artifact" /></p>
-
+<p><img src="/images/vsts-as-cms/publish-build-artifacts.png" alt="publish build artifact" title="publish build artifact"></p>
 <h3 id="release-definitions">Release definitions</h3>
-
 <p>I defined two release definition for each environment I want to publish to, these release definition will grab the build artifacts from the respective build and deploy them to the site hosting platform, for the staging site I am using
 a blob storage in Azure storage account with limited internet access to few IPs as I will be using this storage account to view the blog while I write and tweak each post.
 The other release definition will as well grab the static generated blog and push them to a Github repo where I use to host the blog.</p>
-
-<p><img src="/images/vsts-as-cms/releases.png" alt="release definitions" title="release definitions" /></p>
-
+<p><img src="/images/vsts-as-cms/releases.png" alt="release definitions" title="release definitions"></p>
 <p>the staging build definition have one step to copy the site content to the destination azure storage blob container, for that, I use the AzureBlob file copy step and it&rsquo;s straightforward to fill in the required arguments</p>
-
-<p><img src="/images/vsts-as-cms/azure-file-copy.png" alt="azure file copy task" title="azure file copy task" /></p>
-
+<p><img src="/images/vsts-as-cms/azure-file-copy.png" alt="azure file copy task" title="azure file copy task"></p>
 <p>Just don&rsquo;t forget to use /SetContentType, this is a parameter for the AzCopy tool the step is build upon, it&rsquo;s handy for infering the content type of the blobs.
 the release is configured to trigger whenever there is a new blog being generated from the connected build, so it constitutes a CD.</p>
-
-<p><img src="/images/vsts-as-cms/CD-trigger.png" alt="CD trigger" title="CD trigger" /></p>
-
+<p><img src="/images/vsts-as-cms/CD-trigger.png" alt="CD trigger" title="CD trigger"></p>
 <p>The other release is responsible for deploying the blog to Github is similar to the staging one, but since I host the blog in a Github repo, the deployment step is different, I employ a Powershell script to first clone my blog repo on Github
 and then copy the newer version of the blog to the local repo, commit the changes to local repo, and then pushing those changes to my Github repo.</p>
-
-<p><img src="/images/vsts-as-cms/github-publish.png" alt="Github publish" title="Github publish" /></p>
-
-<p>notice the git clone syntax and the variable in the authentication part, this is a PAT generated in Github with repo access scope so I can authenticate to Github and perform clone and commit operation in a headless manner, the PAT is
+<p><img src="/images/vsts-as-cms/github-publish.png" alt="Github publish" title="Github publish"></p>
+<p>notice the git clone syntax and the variable in the authentication part, this is a PAT generated in Github with repo access scope so I can authenticate to Github and perform clone and commit operation in a headless manner, the PAT is 
 stored as a release variable and encrypted (make sure of this info), which is a good pattern for secrets like this one.</p>
-
-<p><img src="/images/vsts-as-cms/github-PAT.png" alt="Github PAT" title="Github PAT" /></p>
-
+<p><img src="/images/vsts-as-cms/github-PAT.png" alt="Github PAT" title="Github PAT"></p>
 <h3 id="final-thoughts">Final thoughts</h3>
-
 <p>The current setup checks all the check boxes I wanted, with room for improvment for sure, consolidating the builds and release into one, and other small things here and there, but for now I can say mission accomplished.</p>
 
   </section>
@@ -199,10 +172,10 @@ stored as a release variable and encrypted (make sure of this info), which is a 
     </section>
     <ul class="pager">
       
-      <li class="previous"><a href="https://mohadkamil.github.io/posts/static-analysis-on-the-go/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      <li class="previous"><a href="https://mohadkamil.tech/posts/static-analysis-on-the-go/"><span aria-hidden="true">&larr;</span> Older</a></li>
       
       
-      <li class="next"><a href="https://mohadkamil.github.io/posts/vstsmigration/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next"><a href="https://mohadkamil.tech/posts/vstsmigration/">Newer <span aria-hidden="true">&rarr;</span></a></li>
       
     </ul>
   </footer>
@@ -242,7 +215,7 @@ stored as a release variable and encrypted (make sure of this info), which is a 
 
   </footer>
 
-  <script src="https://mohadkamil.github.io/js/highlight.pack.js"></script>
+  <script src="https://mohadkamil.tech/js/highlight.pack.js"></script>
   <script>
     hljs.initHighlightingOnLoad();
   </script>

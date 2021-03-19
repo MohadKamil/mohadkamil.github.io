@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#hexcolor" />
  
   <meta property="og:site_name" content="kimo&#39;s blog" />
-  <meta property="og:url" content="https://mohadkamil.github.io/posts/vstsmigration/" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/vstsmigration/" />
   
   
   <meta property="og:type" content="article" />
@@ -21,19 +21,19 @@
      Migrating to VSTS &middot;  kimo&#39;s blog
   </title>
 
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/github.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/main.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/github.css" />
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400" type="text/css">
-  <link rel="shortcut icon" href="https://mohadkamil.github.io/images/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://mohadkamil.github.io/images/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="https://mohadkamil.tech/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://mohadkamil.tech/images/apple-touch-icon.png" />
   
 </head>
 <body>
     <header class="global-header"  style="background-image:url( /images/bg.jpg )">
     <section class="header-text">
-      <h1><a href="https://mohadkamil.github.io/">kimo&#39;s blog</a></h1>
+      <h1><a href="https://mohadkamil.tech/">kimo&#39;s blog</a></h1>
       
       <div class="tag-line">
         An area where the developer and the geek side of me writes and blogs
@@ -67,7 +67,7 @@
 </div>
 
       
-      <a href="https://mohadkamil.github.io/" class="btn-header btn-back hidden-xs">
+      <a href="https://mohadkamil.tech/" class="btn-header btn-back hidden-xs">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
         &nbsp;Home
       </a>
@@ -96,84 +96,48 @@
     </div>
   </header>
   <section>
-    
-
-<p>At work a need arose for migrating a project with 4 years worth of history from our on-premise TFS to the online visual studio team services (VSTS), completing the migration, I thought I would share the workflow and steps for migrating a project from local TFS to VSTS, and the gotchas and consideration you need to be aware of.</p>
-
+    <p>At work a need arose for migrating a project with 4 years worth of history from our on-premise TFS to the online visual studio team services (VSTS), completing the migration, I thought I would share the workflow and steps for migrating a project from local TFS to VSTS, and the gotchas and consideration you need to be aware of.</p>
 <h3 id="but-first-why-would-you-want-to-migrate">But first, Why would you want to migrate?</h3>
-
 <p>It could be for a couple of reasons, one of them is to tap into the up to date features of the online VSTS, while the on-premise offering of TFS gets updated, the cadence at which the online counterpart gets updated is much much higher.
 For large companies and enterprises, managing an on-premise solution for development is an acceptable overhead, for compliance reasons and others, but that wasn’t true in our case, migrating to cloud meant leaner setup, as managing the on-premise TFS was in itself a hassle.
 So if you deemed migrating a project from on-premise TFS to online VSTS something valuable, then keep reading.</p>
-
 <h1 id="migration-strategies">Migration strategies</h1>
-
 <p>You have two options for migrating your project in regards to preserving the history, you can add your latest version of your project source code files to VSTS, that’s the easiest way and your source code is in the cloud, but of course you lose your history, this can&rsquo;t be possible if you have work on branches that haven’t been merged to your main or the trunk branch, but if you can go with it, it&rsquo;s certainly the easiest.</p>
-
 <p>The other approach is to migrate your project while preserving its history, to achieve that we need two tools in our toolbelt</p>
-
 <ol>
 <li>Git-tfs</li>
 <li>Git-tf</li>
 </ol>
-
 <p>Both of these two tools can be installed using <a href="https://chocolatey.org/">chocolatey package manager</a></p>
-
-<pre><code class="language-powershell">Choco install gittfs -y
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Choco install gittfs -y
 Choco install git-tf -y
-</code></pre>
-
-<p>If you see git and tfs names combined in the name of these two tools and guess the functionality of them, then probably you are right, a bit of background here, TFS uses a central source control system dupped TFVC, in which all changes and check-ins happens on a central server, and you interact with through a client -most likely instrumented using visual studio- to perform source control operation, you can think of it same as client server architecture of the web application, where on the other hand git is distributed in sense that there is no central server that holds the repository and its changes, all source control operation happens against the local repo, so at all times -after cloning the repo- you have a full copy of the repo with its history.
+</code></pre></div><p>If you see git and tfs names combined in the name of these two tools and guess the functionality of them, then probably you are right, a bit of background here, TFS uses a central source control system dupped TFVC, in which all changes and check-ins happens on a central server, and you interact with through a client -most likely instrumented using visual studio- to perform source control operation, you can think of it same as client server architecture of the web application, where on the other hand git is distributed in sense that there is no central server that holds the repository and its changes, all source control operation happens against the local repo, so at all times -after cloning the repo- you have a full copy of the repo with its history.
 And the idea here is to use these tools copy the project history from the local TFS server, convert them to git commits, and instrument the vsts and check in each commit again as a changeset.</p>
-
-<p><img src="/images/vsts-migration/vsts-migration-workflow.png" alt="VSTS migrationWorkflow" /></p>
-
+<p><img src="/images/vsts-migration/vsts-migration-workflow.png" alt="VSTS migrationWorkflow"></p>
 <p>Next step is to check out the project we want to migrate with all of its history to local disk, you can do this by running this command, we do this  using the first tool in our toolbelt</p>
-
-<pre><code class="language-Powershell">git-tfs clone http://tfsserver:8080/tfs/defaultCollection '$/Path/To/Project' . --batch-size=2147483647 --branches=none
-</code></pre>
-
-<p>Make sure to sub in your local TFS server URL, and the path to your project.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Powershell" data-lang="Powershell">git-tfs clone http<span style="color:#960050;background-color:#1e0010">:</span>//tfsserver<span style="color:#960050;background-color:#1e0010">:</span>8080/tfs/defaultCollection <span style="color:#e6db74">&#39;$/Path/To/Project&#39;</span> . --batch-size=2147483647 --branches=none
+</code></pre></div><p>Make sure to sub in your local TFS server URL, and the path to your project.</p>
 <p>A couple of noteworthy comments here,git-tfs allows you to copy a project and specify how to handle branches, you can either pass all to clone all your project branches, this can be helpful if you develop using some branching strategy, in our case though and while the project history did have feature branches, keeping the other branches history wasn’t necessary as they were epharmal branches that were merged to trunk, and hence the none option, the other option is the batch-size, this option
 determines the size of the batch of tfs changesets fetched, the general rule of thumb is to make it as high as you can, you can test with higher number and see the tool memory usage if it acceptable, taking a glance at the code you can see that the option is defined as int so your upper limit is int.MaxSize</p>
-
-<pre><code class="language-csharp">public int BatchSize
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> BatchSize
 {
-    set { _loader.Override(GitTfsConstants.BatchSize,value); }
-    get { return _loader.Get(GitTfsConstants.BatchSize, 100); }
+    <span style="color:#66d9ef">set</span> { _loader.Override(GitTfsConstants.BatchSize,<span style="color:#66d9ef">value</span>); }
+    <span style="color:#66d9ef">get</span> { <span style="color:#66d9ef">return</span> _loader.Get(GitTfsConstants.BatchSize, <span style="color:#ae81ff">100</span>); }
 }
-</code></pre>
-
-<p>Depending on the history of your project, the cloning can take some time, by the end of cloning you will have a local git repository with a commit for each changeset on the tfs server, next step is to check-in those commits to the vsts, git-tfs tool works on both ways, so you can use the same tool to commit the changes to the vsts, but it’s better you use the other tool to do so, this will create an uplink from the local git repo to the vsts project to transfer each commit and check them to vsts while preserving the downlink from the local tfs,</p>
-
-<pre><code class="language-powershell">git-tf configure https://yourtfsinstancename.visualstudio.com $/Destination/Project/Path
-</code></pre>
-
-<p>This will configure the tool and bind the current git repository to this vsts instance on this specified project, git-tf requires that the folder specified to be empty, and the user you use on authentication should have &ldquo;check in other users&rsquo; changes&rdquo; permission.</p>
-
-<p><img src="/images/vsts-migration/others-checkin-permission.png" alt="VSTS migrationWorkflow" title="check other users' changes permission screen" /></p>
-
-<pre><code class="language-PowerShell">git-tf checkin -–keep-author --deep
-</code></pre>
-
-<p>This will instrument the vsts instance and create a tfs changeset for each git commit (since <code>--deep</code> swich is specified) and check it in to the source control, the other options &ndash;keep-authors instructs git-tf tool to preserve each commit user in the check-in operation, the default behaviour will check-in all the changes using the user its credentials was providing in the checkin command, to preserve the git commit author you can specify this option and the tool will use commit’s author git username to check-in the change set, if no user in the vsts users were found that matches the git user name git-tf will error with an error message stating that some users can’t be mapped to vsts users and will emit a mapping file with the list of mapping for you to complete.</p>
-
+</code></pre></div><p>Depending on the history of your project, the cloning can take some time, by the end of cloning you will have a local git repository with a commit for each changeset on the tfs server, next step is to check-in those commits to the vsts, git-tfs tool works on both ways, so you can use the same tool to commit the changes to the vsts, but it’s better you use the other tool to do so, this will create an uplink from the local git repo to the vsts project to transfer each commit and check them to vsts while preserving the downlink from the local tfs,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">git-tf configure https<span style="color:#960050;background-color:#1e0010">:</span>//yourtfsinstancename.visualstudio.com $/Destination/Project/Path
+</code></pre></div><p>This will configure the tool and bind the current git repository to this vsts instance on this specified project, git-tf requires that the folder specified to be empty, and the user you use on authentication should have &ldquo;check in other users' changes&rdquo; permission.</p>
+<p><img src="/images/vsts-migration/others-checkin-permission.png" alt="VSTS migrationWorkflow" title="check other users' changes permission screen"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-PowerShell" data-lang="PowerShell">git-tf checkin -<span style="color:#960050;background-color:#1e0010">–</span>keep-author --deep
+</code></pre></div><p>This will instrument the vsts instance and create a tfs changeset for each git commit (since <code>--deep</code> swich is specified) and check it in to the source control, the other options &ndash;keep-authors instructs git-tf tool to preserve each commit user in the check-in operation, the default behaviour will check-in all the changes using the user its credentials was providing in the checkin command, to preserve the git commit author you can specify this option and the tool will use commit’s author git username to check-in the change set, if no user in the vsts users were found that matches the git user name git-tf will error with an error message stating that some users can’t be mapped to vsts users and will emit a mapping file with the list of mapping for you to complete.</p>
 <p>Note also that the usernames used in mapping (your users emails) needs to be a Microsoft live accounts, so if you sent invites to some users on their personal emails, you will need to make sure they created their Microsoft account or else they can&rsquo;t be valid mapping account.</p>
-
 <h1 id="final-steps">Final steps</h1>
-
 <p>This migration step will take awhile depending on the history of your project and your internet speed (it took me 5 days for a project with 4 years worth of history) and you can’t prohibit other team members from working on the local TFS during this period, and the good news is; you don’t need to, as this approach will allow you to incrementally pull down new changesets from local TFS to your local git repo and then to the vsts, the initial clone operation using git-tfs will take a note of the last changeset at time of running the clone command, and will start cloning from the first one up to this changeset, after which you can just fetch any new changesets to your repo using</p>
-
-<pre><code class="language-Powershell">git-tfs fetch
-</code></pre>
-
-<p>This will fetch the changesets not checked out on the repo and create a commit for each one, after which you can continue with the second lane and use git-tf to check in those new commits to vsts and they will correctly land as changesets on the vsts source control,note that since the two tools will create different branch coupled with the configured remote  you can do this many times to match the history on your vsts source control with the one on your local tfs, the only guide is to not check in any other changeset to the vsts project while migrating the project as it may lead to conflict.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Powershell" data-lang="Powershell">git-tfs fetch
+</code></pre></div><p>This will fetch the changesets not checked out on the repo and create a commit for each one, after which you can continue with the second lane and use git-tf to check in those new commits to vsts and they will correctly land as changesets on the vsts source control,note that since the two tools will create different branch coupled with the configured remote  you can do this many times to match the history on your vsts source control with the one on your local tfs, the only guide is to not check in any other changeset to the vsts project while migrating the project as it may lead to conflict.
 When you have all of your changeset in your vsts project, and you check the health vital reads of your project using build, for example, you can nod your other team members on the shoulder and ask them to move to vsts project, to reduce confusion you could also make the old project read-only.
 this operation may take some time depending on the volume of history in your project</p>
-
-<p><img src="/images/vsts-migration/branches.png" alt="VSTS migrationWorkflow" title="list of branches at the end" /></p>
-
+<p><img src="/images/vsts-migration/branches.png" alt="VSTS migrationWorkflow" title="list of branches at the end"></p>
 <p>Also note that the <code>git-tfs fetch</code> command will pull changesets from the tfs to the remote git branch mirroring the TFS project, and since the uplink transfer commits from the master branch you will need to merge these commits to master, at this stage if you are tired, and don&rsquo;t remember git merge commands, you can just use <a href="https://desktop.github.com">Github for Windows</a> or any other GUI git client.</p>
 
   </section>
@@ -211,10 +175,10 @@ this operation may take some time depending on the volume of history in your pro
     </section>
     <ul class="pager">
       
-      <li class="previous"><a href="https://mohadkamil.github.io/posts/vsts-cms/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      <li class="previous"><a href="https://mohadkamil.tech/posts/vsts-cms/"><span aria-hidden="true">&larr;</span> Older</a></li>
       
       
-      <li class="next"><a href="https://mohadkamil.github.io/posts/helloworld/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next"><a href="https://mohadkamil.tech/posts/helloworld/">Newer <span aria-hidden="true">&rarr;</span></a></li>
       
     </ul>
   </footer>
@@ -254,7 +218,7 @@ this operation may take some time depending on the volume of history in your pro
 
   </footer>
 
-  <script src="https://mohadkamil.github.io/js/highlight.pack.js"></script>
+  <script src="https://mohadkamil.tech/js/highlight.pack.js"></script>
   <script>
     hljs.initHighlightingOnLoad();
   </script>

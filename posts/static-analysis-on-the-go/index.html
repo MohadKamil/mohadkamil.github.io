@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#hexcolor" />
  
   <meta property="og:site_name" content="kimo&#39;s blog" />
-  <meta property="og:url" content="https://mohadkamil.github.io/posts/static-analysis-on-the-go/" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/static-analysis-on-the-go/" />
   
   
   <meta property="og:type" content="article" />
@@ -21,19 +21,19 @@
      static analysis on the go &middot;  kimo&#39;s blog
   </title>
 
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://mohadkamil.github.io/css/github.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/main.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/github.css" />
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400" type="text/css">
-  <link rel="shortcut icon" href="https://mohadkamil.github.io/images/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://mohadkamil.github.io/images/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="https://mohadkamil.tech/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://mohadkamil.tech/images/apple-touch-icon.png" />
   
 </head>
 <body>
     <header class="global-header"  style="background-image:url( /images/bg.jpg )">
     <section class="header-text">
-      <h1><a href="https://mohadkamil.github.io/">kimo&#39;s blog</a></h1>
+      <h1><a href="https://mohadkamil.tech/">kimo&#39;s blog</a></h1>
       
       <div class="tag-line">
         An area where the developer and the geek side of me writes and blogs
@@ -67,7 +67,7 @@
 </div>
 
       
-      <a href="https://mohadkamil.github.io/" class="btn-header btn-back hidden-xs">
+      <a href="https://mohadkamil.tech/" class="btn-header btn-back hidden-xs">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
         &nbsp;Home
       </a>
@@ -97,36 +97,24 @@
   </header>
   <section>
     <p>Just the other day, I wanted to run a static analysis on a project I am working on, to know the number of lines of codes mainly, and to see other metrics.</p>
-
-<p>There are good static analysis tools out there, and the one we had a pleasurable experience with at work is sonarqube, so I went with it, but sonarqube is a server application and requires
-some dependencies to run, and I didn&rsquo;t want to install java runtime just to know the number of my project code lines, what could be the solution?, if you are screaming <strong>DOCKER</strong>
+<p>There are good static analysis tools out there, and the one we had a pleasurable experience with at work is sonarqube, so I went with it, but sonarqube is a server application and requires 
+some dependencies to run, and I didn&rsquo;t want to install java runtime just to know the number of my project code lines, what could be the solution?, if you are screaming <strong>DOCKER</strong> 
 then you are right, the sonarqube team provides the sonarqube server packaged in a docker container, even better they provide an alpine version of it, good news for my limited internet connection.</p>
-
 <p>The sonarqube docker image is a Linux based one, so on windows, if you are running docker using docker on windows, you need to switch to Linux containers, after which you do an image pull</p>
-
-<pre><code class="language-powershell">docker pull sonarqube:alpine
-</code></pre>
-
-<p>we have pulled the slimmer alpine version to cut on the download size, to run the sonarqube server, simple write -or if you are like me, copy paste- the following</p>
-
-<pre><code class="language-powershell">docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
-</code></pre>
-
-<p>this will run the server, forwarding to the local ports on your machine,</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">docker pull sonarqube<span style="color:#960050;background-color:#1e0010">:</span>alpine
+</code></pre></div><p>we have pulled the slimmer alpine version to cut on the download size, to run the sonarqube server, simple write -or if you are like me, copy paste- the following</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">docker run -d --name sonarqube -p 9000<span style="color:#960050;background-color:#1e0010">:</span>9000 -p 9092<span style="color:#960050;background-color:#1e0010">:</span>9092 sonarqube
+</code></pre></div><p>this will run the server, forwarding to the local ports on your machine,</p>
 <p>next is to run static analyzer on the project, for that, you will need to download the <a href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+MSBuild">static analyzer</a>,
-you will need to choose the analyzer based on the .NET framework you use, for me the version was NET Framework 4.6+.
-once you extract the analyzer binaries, locate and open the SonarQube.Analysis.xml configuration file, in it,
+you will need to choose the analyzer based on the .NET framework you use, for me the version was NET Framework 4.6+. 
+once you extract the analyzer binaries, locate and open the SonarQube.Analysis.xml configuration file, in it, 
 you will find commented settings tags, namely &ldquo;sonar.host.url&rdquo;, &ldquo;sonar.login&rdquo; and &ldquo;sonar.password&rdquo;,
 for the first one leave the default setting or punch-in the port if you used a port other than 9000 to map the running sonarqube container,
 for the other two use admin for both, as those are the default credentials for the container. next, go through the commands below</p>
-
-<pre><code class="language-powershell">sonarqube.msbuild.exe start /k:&quot;unique-key-for-your-project&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">sonarqube.msbuild.exe start /k:<span style="color:#e6db74">&#34;unique-key-for-your-project&#34;</span>
 msbuild /t:Rebuild
-sonarqube.msbuild.exe end
-</code></pre>
-
-<p>when sonarqube ends from the analysis tasks and push its metrics to the local server, just go to localhost:9000, log in using the default credentials,
+sonarqube.msbuild.exe <span style="color:#66d9ef">end</span>
+</code></pre></div><p>when sonarqube ends from the analysis tasks and push its metrics to the local server, just go to localhost:9000, log in using the default credentials, 
 and viola, static analysis of your code is there in front of you.</p>
 
   </section>
@@ -164,10 +152,10 @@ and viola, static analysis of your code is there in front of you.</p>
     </section>
     <ul class="pager">
       
-      <li class="previous"><a href="https://mohadkamil.github.io/posts/automating-wpf-deployment-take1/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      <li class="previous"><a href="https://mohadkamil.tech/posts/automating-wpf-deployment-take1/"><span aria-hidden="true">&larr;</span> Older</a></li>
       
       
-      <li class="next"><a href="https://mohadkamil.github.io/posts/vsts-cms/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next"><a href="https://mohadkamil.tech/posts/vsts-cms/">Newer <span aria-hidden="true">&rarr;</span></a></li>
       
     </ul>
   </footer>
@@ -207,7 +195,7 @@ and viola, static analysis of your code is there in front of you.</p>
 
   </footer>
 
-  <script src="https://mohadkamil.github.io/js/highlight.pack.js"></script>
+  <script src="https://mohadkamil.tech/js/highlight.pack.js"></script>
   <script>
     hljs.initHighlightingOnLoad();
   </script>

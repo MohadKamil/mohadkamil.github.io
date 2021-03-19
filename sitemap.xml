@@ -1,53 +1,33 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
-    <loc>https://mohadkamil.github.io/posts/creatingdevbox/</loc>
-    <lastmod>2019-08-31T17:12:19+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/</loc>
-    <lastmod>2019-08-31T17:12:19+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/posts/</loc>
-    <lastmod>2019-08-31T17:12:19+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/posts/automating-wpf-deployment-take1/</loc>
+    <loc>https://mohadkamil.tech/posts/creatingdevbox/</loc>
+    <lastmod>2019-08-31T17:23:14+00:00</lastmod>
+  </url><url>
+    <loc>https://mohadkamil.tech/</loc>
+    <lastmod>2019-08-31T17:23:14+00:00</lastmod>
+  </url><url>
+    <loc>https://mohadkamil.tech/posts/</loc>
+    <lastmod>2019-08-31T17:23:14+00:00</lastmod>
+  </url><url>
+    <loc>https://mohadkamil.tech/posts/automating-wpf-deployment-take1/</loc>
     <lastmod>2019-03-27T09:23:38+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/posts/static-analysis-on-the-go/</loc>
+  </url><url>
+    <loc>https://mohadkamil.tech/posts/static-analysis-on-the-go/</loc>
     <lastmod>2018-07-19T19:38:14+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/posts/vsts-cms/</loc>
+  </url><url>
+    <loc>https://mohadkamil.tech/posts/vsts-cms/</loc>
     <lastmod>2018-06-04T15:10:23+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/posts/vstsmigration/</loc>
+  </url><url>
+    <loc>https://mohadkamil.tech/posts/vstsmigration/</loc>
     <lastmod>2018-05-30T23:06:42+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/posts/helloworld/</loc>
+  </url><url>
+    <loc>https://mohadkamil.tech/posts/helloworld/</loc>
     <lastmod>2018-05-27T21:35:23+02:00</lastmod>
+  </url><url>
+    <loc>https://mohadkamil.tech/categories/</loc>
+  </url><url>
+    <loc>https://mohadkamil.tech/tags/</loc>
   </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mohadkamil.github.io/tags/</loc>
-  </url>
-  
 </urlset>
