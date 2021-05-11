@@ -6,7 +6,17 @@
     <description>Recent content on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 Aug 2019 13:23:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 May 2021 00:31:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Serverless budget tracking</title>
+      <link>https://mohadkamil.tech/posts/serverless-budget-tracking/</link>
+      <pubDate>Wed, 12 May 2021 00:31:26 +0400</pubDate>
+      
+      <guid>https://mohadkamil.tech/posts/serverless-budget-tracking/</guid>
+      <description>I use a very neat application to bugdet and track my spending, or let me confess, I&amp;rsquo;ve been trying to use this bugeting app to but a lid on my careless spending habit, YNAB (You need a budget) is an application for budgeting your income with a great philosphy behind it: &amp;ldquo;you give every dollar a job&amp;rdquo;.
+One of the things I&amp;rsquo;ve been failing at is tracking each payment, while adding transaction to the app is user friendly, but doing so for every payment you do however small is tiresome, that&amp;rsquo;s why when I started using card payment for all of my purchase, an idea came to me.</description>
+    </item>
+    
     <item>
       <title>Creating Dev box in azure, putting packer into good use</title>
       <link>https://mohadkamil.tech/posts/creatingdevbox/</link>
