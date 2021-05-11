@@ -3,22 +3,22 @@
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-  <meta property="og:title" content=" Hello world &middot;  kimo&#39;s blog" />
+  <meta property="og:title" content="  &middot;  kimo&#39;s blog" />
   
   <meta name="theme-color" content="#hexcolor" />
  
   <meta property="og:site_name" content="kimo&#39;s blog" />
-  <meta property="og:url" content="https://mohadkamil.tech/posts/helloworld/" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/" />
   
   
   <meta property="og:type" content="article" />
   
-  <meta property="og:article:published_time" content="2016-05-28T23:23:41&#43;02:00" />
+  <meta property="og:article:published_time" content="0001-01-01T00:00:00Z" />
   
   
 
   <title>
-     Hello world &middot;  kimo&#39;s blog
+      &middot;  kimo&#39;s blog
   </title>
 
   <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
@@ -80,13 +80,13 @@
 
 <article>
   <header>
-    <h1 class="text-primary">Hello world</h1>
+    <h1 class="text-primary"></h1>
     <div class="post-meta clearfix">
     
       <div class="post-date pull-left">
         Posted on
-        <time datetime="2016-05-28T23:23:41&#43;02:00">
-          May 28, 2016
+        <time datetime="0001-01-01T00:00:00Z">
+          Jan 1, 0001
         </time>
       </div>
     
@@ -96,7 +96,32 @@
     </div>
   </header>
   <section>
-    <p>he first program you write when you learn a new programming language is the famous Hello world program , and as such, this is my hello world blog post , I will return soon to talk more about many interesting topics , but now I was able to say Hello to the world , and that’s enough for now.</p>
+    <h2 id="date-2021-5-11t07300004">title: Microservices, the forgotton human element
+draft: true
+date: 2021-5-11T07:30:00+04</h2>
+<p>Microservice isn&rsquo;t meant for single team, <a href="https://en.wikipedia.org/wiki/Conway%27s_law">conway&rsquo;s law</a> tells us that 
+organizations ships their communication structure, microservices comes as a result of having multiple teams working 
+on the subdomains in an indepent manner, independent teams who owns a service end to end and controls the release cycle 
+and abstract the interant detail of the service as a public interface will yeild a microservice archietecture, the opposite
+is quite hard to achieve.
+microservice is there in the first place to allow multiple teams to work on a decoupled subdomains of the original issue
+indepently, basically breaking away from the need to sync across large number of members of one team, 
+but when you have few developers developing your app, you don&rsquo;t have the kind of issues microservice architecture solves, 
+your small team now has to develop distributed services, deploy and manage each of them, 
+atop of solving your domain issue your software is trying to, which in itself would be a complex one 
+(that&rsquo;s why Eric Evans had the subtitle of &ldquo;tackling complexity at the heart of software design&rdquo; for his book). 
+so what would have bean single monolith app that&rsquo;s easier to deploy, is now decomposed into multiple microservices
+that your team needs to develop, deploy and monitor, and keep mind complexity increases if you want to employ 
+eventing/massaging between those services.</p>
+<p>I would even argue that adoping microservices archietecture for a small team actually impacts the productivity negativlly,
+having your app in a one codebase and in a one codebase and in a monolith app allows to resue your code, implement cross-cutting
+conrens that spans across the full app, for error handling, logging conrens &hellip;etc. those are the sort of beniefits that allows
+you to easily achieve more with resuing what you already written before.</p>
+<p>Another thing that&rsquo;s gets stacked against monolith apps is the scalability, microservice are advertised as scalable, 
+but there is nothing preventing the scalability of a one monolith application, microservices allows independent scalability
+where one microservice could see more traffic, and you have the ability to scale it to match that traffic, but there is 
+nothing preventing you from scalling a monolith app as well, while each component/route on a monolith could recieve 
+different traffic load,</p>
 
   </section>
   <footer>
@@ -133,10 +158,10 @@
     </section>
     <ul class="pager">
       
-      <li class="previous"><a href="https://mohadkamil.tech/posts/vstsmigration/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      <li class="previous"><a href="https://mohadkamil.tech/posts/helloworld/"><span aria-hidden="true">&larr;</span> Older</a></li>
       
       
-      <li class="next"><a href="https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next"><a href="https://mohadkamil.tech/posts/serverless-budget-tracking/">Newer <span aria-hidden="true">&rarr;</span></a></li>
       
     </ul>
   </footer>
