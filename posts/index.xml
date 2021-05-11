@@ -66,15 +66,6 @@ But first, Why would you want to migrate? It could be for a couple of reasons, o
     </item>
     
     <item>
-      <title></title>
-      <link>https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/</guid>
-      <description>title: Microservices, the forgotton human element draft: true date: 2021-5-11T07:30:00+04 Microservice isn&amp;rsquo;t meant for single team, conway&amp;rsquo;s law tells us that organizations ships their communication structure, microservices comes as a result of having multiple teams working on the subdomains in an indepent manner, independent teams who owns a service end to end and controls the release cycle and abstract the interant detail of the service as a public interface will yeild a microservice archietecture, the opposite is quite hard to achieve.</description>
-    </item>
-    
-    <item>
       <title>Serverless budget tracking</title>
       <link>https://mohadkamil.tech/posts/serverless-budget-tracking/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
