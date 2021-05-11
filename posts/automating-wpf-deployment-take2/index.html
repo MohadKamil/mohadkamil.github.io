@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <meta property="og:title" content=" Automating WPF deployment Take 2 &middot;  kimo&#39;s blog" />
+  
+  <meta name="theme-color" content="#hexcolor" />
+ 
+  <meta property="og:site_name" content="kimo&#39;s blog" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/automating-wpf-deployment-take2/" />
+  
+  
+  <meta property="og:type" content="article" />
+  
+  <meta property="og:article:published_time" content="2019-08-26T13:23:26&#43;04:00" />
+  
+  
+
+  <title>
+     Automating WPF deployment Take 2 &middot;  kimo&#39;s blog
+  </title>
+
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/main.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://mohadkamil.tech/css/github.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400" type="text/css">
+  <link rel="shortcut icon" href="https://mohadkamil.tech/images/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://mohadkamil.tech/images/apple-touch-icon.png" />
+  
+</head>
+<body>
+    <header class="global-header"  style="background-image:url( /images/bg.jpg )">
+    <section class="header-text">
+      <h1><a href="https://mohadkamil.tech/">kimo&#39;s blog</a></h1>
+      
+      <div class="tag-line">
+        An area where the developer and the geek side of me writes and blogs
+      </div>
+      
+      <div class="sns-links hidden-print">
+  
+  
+  <a href="https://twitter.com/kamlan19922" target="_blank">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="https://github.com/mohadkamil" target="_blank">
+    <i class="fa fa-github"></i>
+  </a>
+  
+  
+  
+  
+  
+  
+  <a href="https://linkedin.com/in/mohammed-kamil-80bb0495" target="_blank">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+</div>
+
+      
+      <a href="https://mohadkamil.tech/" class="btn-header btn-back hidden-xs">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+        &nbsp;Home
+      </a>
+      
+      
+    </section>
+  </header>
+  <main class="container">
+
+
+<article>
+  <header>
+    <h1 class="text-primary">Automating WPF deployment Take 2</h1>
+    <div class="post-meta clearfix">
+    
+      <div class="post-date pull-left">
+        Posted on
+        <time datetime="2019-08-26T13:23:26&#43;04:00">
+          Aug 26, 2019
+        </time>
+      </div>
+    
+      <div class="pull-right">
+        
+      </div>
+    </div>
+  </header>
+  <section>
+    <p>In my previous <a href="https://mohadkamil.github.io/posts/automating-wpf-deployment-take1/">post</a> I&rsquo;ve talked about how to
+automate the deployment of a WPF application, using a small app the uses some feature of Azure active directiry
+as a demo.</p>
+<p>While the method I showcased gets us there, it fells short, the main concern is that it requires rebuilding the app again
+to get the deployment package, this defeat the mantra of build once deploy everywhere, and opens up a seem for 
+changes between the application binaries you tested, and what gets deployed, what we want to acheive is to build
+our app, preferably as part of a CI build, store the needed dlls and binraries of the application produced by 
+the build, and use those in a package step to create our deployment artifact.</p>
+<p>Since we are using Clickonce, a great solution is to use the mage command line tool, this is the same tool visual
+studio uses behind the scenes when you run the build with Publish target, and here we will step over visual studio
+and run the tool outselfs.</p>
+
+  </section>
+  <footer>
+    
+    
+    <hr/>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = 'mohadkamil-github-io';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+    
+    <section class="author-info row">
+      <div class="author-avatar col-md-2">
+        
+        <img alt="Author Avatar" src="/avatars/avatar.jpg" />
+        
+      </div>
+      <div class="author-meta col-md-6">
+        
+        <h1 class="author-name text-primary">Mohammed Kamil</h1>
+        
+        
+        <div class="author-bio">My name is Mohammed Kamil , I am a Sudanese software developer , eager to learn any thing in the realm of computer and software engineering</div>
+        
+      </div>
+      
+    </section>
+    <ul class="pager">
+      
+      <li class="previous"><a href="https://mohadkamil.tech/posts/creatingdevbox/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      
+      
+      <li class="next"><a href="https://mohadkamil.tech/posts/automating-wpf-deployment-take1/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+  </main>
+  <footer class="container global-footer">
+    <div class="copyright-note pull-left">
+      
+    </div>
+    <div class="sns-links hidden-print">
+  
+  
+  <a href="https://twitter.com/kamlan19922" target="_blank">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="https://github.com/mohadkamil" target="_blank">
+    <i class="fa fa-github"></i>
+  </a>
+  
+  
+  
+  
+  
+  
+  <a href="https://linkedin.com/in/mohammed-kamil-80bb0495" target="_blank">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+</div>
+
+  </footer>
+
+  <script src="https://mohadkamil.tech/js/highlight.pack.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-114679477-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+  
+</body>
+</html>
+
