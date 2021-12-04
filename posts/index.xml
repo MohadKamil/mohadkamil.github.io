@@ -6,7 +6,17 @@
     <description>Recent content in Posts on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 12 May 2021 00:31:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Dec 2021 12:35:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Microservices, the forgotton human element</title>
+      <link>https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/</link>
+      <pubDate>Sat, 04 Dec 2021 12:35:26 +0400</pubDate>
+      
+      <guid>https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/</guid>
+      <description>The TLDR version of this post is this: don&amp;rsquo;t use microservice archetecture if you have a small team, below is why.
+Microservice isn&amp;rsquo;t meant for a single team, conway&amp;rsquo;s law tells us that: organizations ships their communication structure, and hence microservices comes as a result of having multiple teams working on the subdomains in an indepent manner, independent teams who owns a service end to end and controls the release cycle and abstract the interant detail of the service as a public interface will yeild a microservice archietecture, the opposite is quite hard to achieve.</description>
+    </item>
+    
     <item>
       <title>Serverless budget tracking</title>
       <link>https://mohadkamil.tech/posts/serverless-budget-tracking/</link>
