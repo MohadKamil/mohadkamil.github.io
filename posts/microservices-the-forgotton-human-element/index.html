@@ -3,7 +3,7 @@
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-  <meta property="og:title" content=" Microservices, the forgotton human element &middot;  kimo&#39;s blog" />
+  <meta property="og:title" content=" Microservices, the forgotten human element &middot;  kimo&#39;s blog" />
   
   <meta name="theme-color" content="#hexcolor" />
  
@@ -18,7 +18,7 @@
   
 
   <title>
-     Microservices, the forgotton human element &middot;  kimo&#39;s blog
+     Microservices, the forgotten human element &middot;  kimo&#39;s blog
   </title>
 
   <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
@@ -80,7 +80,7 @@
 
 <article>
   <header>
-    <h1 class="text-primary">Microservices, the forgotton human element</h1>
+    <h1 class="text-primary">Microservices, the forgotten human element</h1>
     <div class="post-meta clearfix">
     
       <div class="post-date pull-left">
@@ -96,33 +96,33 @@
     </div>
   </header>
   <section>
-    <p>The <em>TLDR</em> version of this post is this: don&rsquo;t use microservice archetecture if you have a small team, below is why.</p>
+    <p>The <em>TLDR</em> version of this post is this: don&rsquo;t use microservice architecture if you have a small team, below is why.</p>
 <p>Microservice isn&rsquo;t meant for a single team, <a href="https://en.wikipedia.org/wiki/Conway%27s_law">conway&rsquo;s law</a> tells us that: 
-<em>organizations ships their communication structure</em>, and hence microservices comes as a result of having multiple teams working 
-on the subdomains in an indepent manner, independent teams who owns a service end to end and controls the release cycle 
-and abstract the interant detail of the service as a public interface will yeild a microservice archietecture, the opposite
+<em>organizations ship their communication structure</em>, and hence microservices comes as a result of having multiple teams working 
+on the subdomains in an independent manner, independent teams who owns a service end to end and control the release cycle 
+and abstract the internal details of the service as a public interface will yield a microservice architecture, the opposite
 is quite hard to achieve.</p>
-<p>microservices is there in the first place to allow multiple teams to work on a decoupled subdomains of the original issue
-indepently, basically breaking away from the need to sync across large number of members of one team, 
+<p>microservices is there in the first place to allow multiple teams to work on decoupled subdomains of the original issue
+independently, breaking away from the need to sync across a large number of members of one team, 
 but when you have few developers developing your app, you don&rsquo;t have the kind of issues microservice architecture solves, 
 your small team now has to develop distributed services, deploy and manage each of them, 
 atop of solving your domain issue your software is trying to, which in itself would be a complex one 
 (that&rsquo;s why Eric Evans had the subtitle of &ldquo;tackling complexity at the heart of software design&rdquo; for his <a href="https://www.goodreads.com/book/show/179133.Domain_Driven_Design?from_search=true&amp;from_srp=true&amp;qid=15rvy18h0I&amp;rank=1">book</a>). 
-so what would have bean single monolith app that&rsquo;s easier to deploy, is now decomposed into multiple microservices
-that your team needs to develop, deploy and monitor, and keep mind complexity increases if you want to employ 
+so what would have been a single monolith app that&rsquo;s easier to deploy, is now decomposed into multiple microservices
+that your team needs to develop, deploy and monitor, and keep in mind complexity increases if you want to employ 
 eventing/massaging between those services.</p>
-<p>I would even argue that adoping microservices archietecture for a small team actually impacts the productivity negativlly,
-having your app in a one codebase and in a monolith app allows to resue your code, implement cross-cutting
-conrens that spans across the full app, things like error handling, logging conrens &hellip;etc. those are the sort of beniefits that allows
-you to easily achieve more with resuing what you already written before.</p>
-<p>Another thing that&rsquo;s gets stacked against monolith apps is the scalability, microservice are advertised as scalable, 
-but there is nothing preventing the scalability of a one monolith application, microservices allows independent scalling
-where one microservice could see more traffic, and you have the ability to scale it to match that traffic, but there is 
-nothing preventing you from scalling a monolith app as well, while each component/route on a monolith could recieve 
-different traffic load, and you need to scale the whole app to match the load this route is seeing.</p>
-<p>And I see team going for a microservice archietecture from the get go on the assumption that their app userbase will grow and they are future
-broofing their app to be scalable, there is a subconsious idea here that needing to re-archetect your app is a failure or a lack of oversight, but 
-I would argue it&rsquo;s the opposite, needing to re-archietecture you app to meet new scalling requirement is actually a sign of success,
+<p>I would even argue that adopting microservices architecture for a small team impacts productivity negatively,
+having your app in one codebase and a monolith app allows you to reuse your code, implement cross-cutting
+concerns that span across the full app, things like error handling, logging corners &hellip;etc. those are the sort of benefits that allows
+you to easily achieve more by reusing what you have already written before.</p>
+<p>Another thing that&rsquo;s gets stacked against monolith apps is scalability, microservices are advertised as scalable, 
+but nothing is preventing the scalability of a one monolith application, microservices allows independent scaling
+where one microservice could see more traffic, and you can scale it to match that traffic, but there is 
+nothing preventing you from scaling a monolith app as well, while each component/route on a monolith could receive 
+different traffic load and you need to scale the whole app to match the load this route is seeing.</p>
+<p>And I see teams going for a microservice architecture from the get-go on the assumption that their app user base will grow and they are future
+proofing their app to be scalable, there is a subconscious idea here that needing to re-architect your app is a failure or a lack of oversight, but 
+I would argue it&rsquo;s the opposite, needing to re-architecture your app to meet new scaling requirements is a sign of success,
 it means you developed an app that&rsquo;s users want to use, your userbase is growing, and you have your app success on your back to expand your
 team and start adopting a microservice architecture.</p>
 
