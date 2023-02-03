@@ -6,7 +6,19 @@
     <description>Recent content on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Dec 2021 12:35:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Feb 2023 10:22:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automating API Deployment to Azure API Management using Pulumi</title>
+      <link>https://mohadkamil.tech/posts/publisingapistoazureapim/</link>
+      <pubDate>Fri, 03 Feb 2023 10:22:26 +0400</pubDate>
+      
+      <guid>https://mohadkamil.tech/posts/publisingapistoazureapim/</guid>
+      <description>If you are using Azure API management service to federate access to your backend APIs, then you&amp;rsquo;ve faced the requirement to automate how to deploy those APIs to it, in this post I show you how we achieved this at my current company.
+The Scope The goals we want to achieve are:
+  Automating API operation, request, and response (API schema in general) creations from one swagger file.
+  Configuring things like redirect, caching, validation &amp;hellip;etc policies for each API operation.</description>
+    </item>
+    
     <item>
       <title>Microservices, the forgotten human element</title>
       <link>https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/</link>
