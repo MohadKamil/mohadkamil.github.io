@@ -6,7 +6,17 @@
     <description>Recent content on kimo&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Feb 2023 10:22:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 May 2023 19:32:26 +0400</lastBuildDate><atom:link href="https://mohadkamil.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AWS Lambda Components</title>
+      <link>https://mohadkamil.tech/posts/aws-lambda-components/</link>
+      <pubDate>Mon, 22 May 2023 19:32:26 +0400</pubDate>
+      
+      <guid>https://mohadkamil.tech/posts/aws-lambda-components/</guid>
+      <description>AWS Lambda service consists of a few parts; working to give us serverless computing capability. In this article, I want to break down those components and give you a quick brief on each.
+Lambda Service I&amp;rsquo;m using Lambda service here to denote the control plane for the aws service, this is the part responsible for the configuration of the lambda instance (memory limit, environment variables, etc.), and it&amp;rsquo;s the part that receives the lambda binaries and spins instances to run them on demand.</description>
+    </item>
+    
     <item>
       <title>Automating API Deployment to Azure API Management using Pulumi</title>
       <link>https://mohadkamil.tech/posts/publisingapistoazureapim/</link>

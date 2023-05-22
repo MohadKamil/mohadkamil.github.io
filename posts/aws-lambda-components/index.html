@@ -3,22 +3,22 @@
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-  <meta property="og:title" content=" Automating API Deployment to Azure API Management using Pulumi &middot;  kimo&#39;s blog" />
+  <meta property="og:title" content=" AWS Lambda Components &middot;  kimo&#39;s blog" />
   
   <meta name="theme-color" content="#hexcolor" />
  
   <meta property="og:site_name" content="kimo&#39;s blog" />
-  <meta property="og:url" content="https://mohadkamil.tech/posts/publisingapistoazureapim/" />
+  <meta property="og:url" content="https://mohadkamil.tech/posts/aws-lambda-components/" />
   
   
   <meta property="og:type" content="article" />
   
-  <meta property="og:article:published_time" content="2023-02-03T10:22:26&#43;04:00" />
+  <meta property="og:article:published_time" content="2023-05-22T19:32:26&#43;04:00" />
   
   
 
   <title>
-     Automating API Deployment to Azure API Management using Pulumi &middot;  kimo&#39;s blog
+     AWS Lambda Components &middot;  kimo&#39;s blog
   </title>
 
   <link rel="stylesheet" href="https://mohadkamil.tech/css/bootstrap.min.css" />
@@ -80,13 +80,13 @@
 
 <article>
   <header>
-    <h1 class="text-primary">Automating API Deployment to Azure API Management using Pulumi</h1>
+    <h1 class="text-primary">AWS Lambda Components</h1>
     <div class="post-meta clearfix">
     
       <div class="post-date pull-left">
         Posted on
-        <time datetime="2023-02-03T10:22:26&#43;04:00">
-          Feb 3, 2023
+        <time datetime="2023-05-22T19:32:26&#43;04:00">
+          May 22, 2023
         </time>
       </div>
     
@@ -96,41 +96,31 @@
     </div>
   </header>
   <section>
-    <p>If you are using Azure API management service to federate access to your backend APIs, then you&rsquo;ve faced the requirement to automate how to deploy those APIs to it, in this post I show you how we achieved this at my current company.</p>
-<h3 id="the-scope">The Scope</h3>
-<p>The goals we want to achieve are:</p>
+    <p>AWS Lambda service consists of a few parts; working to give us serverless computing capability. In this article, I want to break down those components and give you a quick brief on each.</p>
+<p><img src="/images/LambdaComponents/telemetry-api-concept-diagram.png" alt="Lambda Components" title="Lambda Components"></p>
+<h3 id="lambda-service">Lambda Service</h3>
+<p>I&rsquo;m using Lambda service here to denote the control plane for the aws service, this is the part responsible for the configuration of the lambda instance (memory limit, environment variables, etc.), and it&rsquo;s the part that receives the lambda binaries and spins instances to run them on demand.</p>
+<h3 id="execution-environment">Execution Environment</h3>
+<p>Execution Environment is the sandbox lambda service uses to run your code in isolation; aws uses <a href="https://firecracker-microvm.github.io/">firecracker</a> as a lightweight isolation VM for this purpose.
+Each execution environment has a copy of your code, and it can run in response to an event received by lambda; lambda service can reuse a previously running execution environment to handle incoming events, or it can provide a new one.</p>
+<h3 id="runtime">Runtime</h3>
+<p>one of the goals of lambda is to allow developers to focus on writing the event-handling code and the custom business logic around it and abstract the code needed to execute handlers in response to events.
+Lambda service achieves this goal through the use of a Runtime, the runtime in conjunction with runtime API, queries the lambda service to get events to execute and calls the handler code defined by the developer; it also provides the glue for integrating with some aws services, for example, it receives logs and forward them to cloudwatch, and also adds tracking using x-ray service.
+One interesting fact about the runtime and the running of lambda handlers is that even though the lambda service is a push-based model, where the lambda service triggers and spins a new execution environment in response to coming events, the runtime works in a pull-based model, where it uses a <a href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html#runtimes-api-next">GET</a> endpoint provided by the runtime API to pull the next pending event to execute, pass it to the defined handler and return the response to the client (client, in this case, is the client/user calling or triggering the lambda service).</p>
+<p>All of the above components, plus your handler code, are the minimum required components to run your lambda. There are extra optional components that you can opt-in for added features:</p>
+<h3 id="extensions">Extensions</h3>
+<p>Lambda extensions are extra code apart from your handler(s) that you can run to provide functionality within your lambda. The additional functionality could be an integration with a monitoring provider (like <a href="https://docs.datadoghq.com/serverless/libraries_integrations/extension/">datadog</a> or <a href="https://docs.honeycomb.io/getting-data-in/aws/aws-lambda/">honeycomb</a> to name a few) or a cross-cutting concern you want to implement once for all of your handlers.
+Extensions work similarly to runtime by pulling invoke events from lambda service using <a href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html#runtimes-extensions-registration-api">Extensions API</a> and execute extension code when <a href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html#extensions-api-next">Next</a> endpoint returns an event.
+One thing to note here is that extensions can increase the cold start of your lambda function as they participate in the init phase.</p>
+<h3 id="telemetry-api-and-telemetry-extensions">Telemetry API and Telemetry Extensions</h3>
+<p>Lambda and the execution environment have a wealth of telemetry information that it tracks, and those include either:</p>
 <ul>
-<li>
-<p>Automating API operation, request, and response (API schema in general) creations from one swagger file.</p>
-</li>
-<li>
-<p>Configuring things like redirect, caching, validation &hellip;etc policies for each API operation.</p>
-</li>
+<li><strong>Platform telemetry</strong> – Logs, metrics, and traces which describe events and errors related to the execution environment runtime lifecycle, extension lifecycle, and function invocations.</li>
+<li><strong>Function logs</strong> – Custom logs generated by Lambda function code.</li>
+<li><strong>Extension logs</strong> – Custom logs generated by Lambda extension code.
+Any extension can register a receiver with the lambda service, and lambda will stream those metrics to an HTTP (or TCP) endpoint local to the execution environment. From there is up to the extension to process each telemetry.
+An interesting thing to note, while the lambda handlers and regular extensions (through the runtime and extension APIs) use a pull-based model to receive events, telemetry extensions receive telemetry in a push model, where the lambda service will patch and deliver telemetry to the local endpoint defined with <a href="https://docs.aws.amazon.com/lambda/latest/dg/telemetry-api.html#telemetry-api-subscription">subscription API</a>.</li>
 </ul>
-<p>The first step is not hard to automate, there are some existing options available to automate it, few of those include for example the Az <a href="https://marketplace.visualstudio.com/items?itemName=stephane-eyskens.apim">DevOps extension</a> created by <a href="https://marketplace.visualstudio.com/publishers/stephane-eyskens">Stephane Eyskens</a>. Microsoft offers a <a href="https://github.com/Azure/azure-api-management-devops-resource-kit">resource kit</a> to manage and automate your API gateway deployment.</p>
-<p>The main shortcomings of the solution I came across are either its complexity (The Microsoft one) or the lack of support for defining API policies on a granular level.</p>
-<h3 id="the-solution">The Solution</h3>
-<p>For us, our API development process starts with creating a swagger document file for the API, and we treat it as technical documentation for the API, API management has support for importing and creating an API from a swagger file (v2 or v3), with one limitation being the lack of support for defining API or operation policies in the same swagger file.
-Part of the solution came to me while reading how aws API gateway handles authorization, it provides <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions.html">pre-defined extensions</a> to the open API spec that customizes the behavior of the gateway.
-We are going to follow the aws example and define our own open API spec extension <code>x-az-policy</code> that will hold the API or operation policies.</p>
-<h3 id="show-me-the-code">Show Me the code</h3>
-<p>The source code that accompanies this blog is hosted <a href="https://github.com/MohadKamil/AzureAPIMAutomation">here</a>, most of the interesting code is defined under <code>AzureApiManagementApiComponent.cs</code> file, this defines the pulumi <a href="https://www.pulumi.com/docs/intro/concepts/resources/components/">component</a> that reads the swagger input and translate it to Azure API management constructs.
-The component starts by receiving initialization parameters and setting some private state</p>
-<p><img src="/images/AutomatingAPIM/APIComponent.png" alt="API Component" title="API Component"></p>
-<p>the next step is to parse the swagger file into a strongly typed representation, for that, I&rsquo;m using the <a href="https://github.com/microsoft/OpenAPI.NET">OpenAPI.NET</a> SDK to parse the swagger file.</p>
-<p><img src="/images/AutomatingAPIM/SwaggerDocument.png" alt="Swagger Document" title="Swagger Document"></p>
-<p>From there we start by creating the top-level API first</p>
-<p><img src="/images/AutomatingAPIM/APIResource.png" alt="API Resource" title="API Resource"></p>
-<p>Our design allows having policies defined at the API level, after creating the API we check if the API has any policy statement defined using our custom extension
-<img src="/images/AutomatingAPIM/APIPolicy.png" alt="API Policy" title="API Policy">
-this reads the extensions defined at the API levels and creates an <code>ApiPolicy</code> resource and attaches it to the created API definition. keep in mind that we are expecting to see valid Xml API management policies defined so we don&rsquo;t validate the input here.</p>
-<p>The next step in our code involves adding the schema with all type definitions to the API, the code for that looks like this below:
-<img src="/images/AutomatingAPIM/APISchema.png" alt="API Schema" title="API Resource"></p>
-<p>As we now have our schemas created we can move to create the individual API operations, I will skip showing the detailed code for this part, a pseudo code for the process will look like:</p>
-<p><img src="/images/AutomatingAPIM/APIPaths.png" alt="API Paths" title="API Paths"></p>
-<p>at this step, we have our API fully created, including all of its operations and the schemes for request and responses, and we can add the defined policies at the API operation level:</p>
-<p><img src="/images/AutomatingAPIM/APIOperationPolicy.png" alt="API Operation Policy" title="API Operation Policy"></p>
-<p>With this, we get the last resource we need for our API created and defined on the Azure API management service.</p>
 
   </section>
   <footer>
@@ -167,10 +157,10 @@ this reads the extensions defined at the API levels and creates an <code>ApiPoli
     </section>
     <ul class="pager">
       
-      <li class="previous"><a href="https://mohadkamil.tech/posts/aws-lambda-components/"><span aria-hidden="true">&larr;</span> Older</a></li>
+      <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
       
       
-      <li class="next"><a href="https://mohadkamil.tech/posts/microservices-the-forgotton-human-element/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next"><a href="https://mohadkamil.tech/posts/publisingapistoazureapim/">Newer <span aria-hidden="true">&rarr;</span></a></li>
       
     </ul>
   </footer>
